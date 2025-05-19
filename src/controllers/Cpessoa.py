@@ -1,6 +1,6 @@
 # src/controllers/pessoa_controller.py
 
-from src.models.pessoa import Pessoa
+from src.models.mpessoa import Pessoa
 
 class PessoaController:
     def __init__(self):
@@ -24,14 +24,4 @@ class PessoaController:
         else:
             return f"{pessoa.nome} não tem saldo suficiente para fazer essa aposta."
 
-    def desafiar_oponente(self, pessoa, oponente, valor_aposta):
-        """
-        Faz uma pessoa desafiar outra, verificando se ambos têm saldo suficiente.
-        """
-        if pessoa.saldo >= valor_aposta and oponente.saldo >= valor_aposta:
-            pessoa.saldo -= valor_aposta
-            oponente.saldo -= valor_aposta
-            return f"{pessoa.nome} desafiou {oponente.nome} para uma aposta de {valor_aposta}. " \
-                   f"Saldo de {pessoa.nome}: {pessoa.saldo}, Saldo de {oponente.nome}: {oponente.saldo}"
-        else:
-            return "Saldo insuficiente para desafiar o oponente."
+

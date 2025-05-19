@@ -1,7 +1,7 @@
 
 from abc import ABC, abstractmethod
 
-class DesafioInterface(ABC):
+class Desafio(ABC):
 
     @abstractmethod
     def add_participante(self, participante) -> None:

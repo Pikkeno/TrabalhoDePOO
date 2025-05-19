@@ -1,5 +1,5 @@
 class Pessoa:
-    def __init__(self, nome, idm, saldo, score):
+    def __init__(self, nome, idm, saldo, score, valor_aposta, oponente):
         self.nome = nome
         self.idm = idm
         self.saldo = saldo
@@ -12,6 +12,4 @@ class Pessoa:
         # Implementar lógica para fazer uma aposta
         pass
 
-    def desafiar(self, oponente, valor_aposta):
-        # Implementar lógica para desafiar um oponente
-        pass
+    
