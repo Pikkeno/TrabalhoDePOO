@@ -1,6 +1,6 @@
 # src/controllers/pessoa_controller.py
 
-from src.models.mpessoa import Pessoa
+from src.models.pessoa_models import Pessoa
 
 class PessoaController:
     def __init__(self):

@@ -1,6 +1,6 @@
 # src/controllers/desafio_controller.py
 
-from src.models.mdesafio import Desafio
+from src.models.desafio_models import Desafio
 
 class DesafioController:
     def __init__(self):

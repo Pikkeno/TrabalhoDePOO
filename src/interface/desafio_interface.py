@@ -1,7 +1,10 @@
-
 from abc import ABC, abstractmethod
 
 class Desafio(ABC):
+
+    @abstractmethod
+    def criar_desafio(self, id, descricao, data_inicio, data_fim, valor_aposta) -> None:
+        pass
 
     @abstractmethod
     def add_participante(self, participante) -> None:

@@ -1,5 +1,5 @@
-from src.controllers.cdesafio import DesafioController
-from src.controllers.cpessoa import PessoaController
+from src.controllers.desafio_controller import DesafioController
+from src.controllers.pessoa_controller  import PessoaController
 
 
 def main():
@@ -14,3 +14,7 @@ def main():
     # Exemplo de uso do controlador de desafios
     desafio1 = desafio_controller.criar_desafio(1, "Desafio de Apostas", "2023-10-01", "2023-10-31", 100)
     print(f"Desafio criado: {desafio1.descricao}, Data Início: {desafio1.data_inicio}, Data Fim: {desafio1.data_fim}")
+
+
+    if __name__ == "__main__":
+        main()

@@ -4,12 +4,10 @@ class Pessoa:
         self.idm = idm
         self.saldo = saldo
         self.score = score
+        self.valor_aposta = valor_aposta
+        self.oponente = oponente
 
     def __str__(self):
         return f"Pessoa(nome={self.nome}, idm={self.idm}, saldo={self.saldo}, score={self.score})"
-
-    def aposta(self, valor_aposta):
-        # Implementar lógica para fazer uma aposta
-        pass
 
     
