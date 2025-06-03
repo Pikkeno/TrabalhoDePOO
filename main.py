@@ -1,5 +1,5 @@
 from src.controllers.desafio_controller import DesafioController
-from src.controllers.pessoa_controller  import PessoaController
+from src.controllers.pessoa_controller import PessoaController
 
 
 def main():
