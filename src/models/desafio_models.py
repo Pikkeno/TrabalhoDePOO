@@ -1,11 +1,13 @@
 
 class Desafio:
-    def __init__(self, id, descricao, data_inicio, data_fim, valor_aposta):
+    def __init__(self, id, descricao, data_inicio, data_fim, valor_aposta,
+                 limite_participantes: int=2):
         self.id = id
         self.descricao = descricao
         self.data_inicio = data_inicio
         self.data_fim = data_fim
         self.valor_aposta = valor_aposta
+        self.limite_participantes = limite_participantes
         self.status = "Ativo"  # O status inicial é 'Ativo'
         self.participantes = []  # Lista de participantes
         self.vencedor = None  # Nenhum vencedor até o desafio ser encerrado
@@ -14,7 +16,7 @@ class Desafio:
         """
         Adiciona um participante ao desafio.
         """
-        if len(self.participantes) < 2:
+        if len(self.participantes) < self.limite_participantes:
             self.participantes.append(participante)
             return True
         return False

@@ -6,11 +6,13 @@ class DesafioController:
     def __init__(self):
         self.desafios = []  # Lista de desafios ativos no sistema
 
-    def criar_desafio(self, id, descricao, data_inicio, data_fim, valor_aposta):
+    def criar_desafio(self, id, descricao, data_inicio, data_fim, valor_aposta,
+                      limite_participantes: int = 2):
         """
         Cria um novo desafio e adiciona à lista de desafios.
         """
-        desafio = Desafio(id, descricao, data_inicio, data_fim, valor_aposta)
+        desafio = Desafio(id, descricao, data_inicio, data_fim, valor_aposta,
+                          limite_participantes)
         self.desafios.append(desafio)
         return desafio
 
