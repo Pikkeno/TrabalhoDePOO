@@ -7,14 +7,24 @@ def main():
     desafio_controller = DesafioController()
     pessoa_controller = PessoaController()
 
-    # Exemplo de uso do controlador de pessoas
-    pessoa1 = pessoa_controller.criar_pessoa("Alice", "ID123", 1000, 50)
-    print(f"Pessoa criada: {pessoa1.nome}, Saldo: {pessoa1.saldo}, Score: {pessoa1.score}")
+    nome = input("Digite seu nome: ")
+    idm = input("Digite seu IDM: ")
+    saldo = int(input("Digite seu saldo inicial: "))
+    score = int(input("Digite seu score inicial: "))
 
-    # Exemplo de uso do controlador de desafios
-    desafio1 = desafio_controller.criar_desafio(1, "Desafio de Apostas", "2023-10-01", "2023-10-31", 100)
-    print(f"Desafio criado: {desafio1.descricao}, Data Início: {desafio1.data_inicio}, Data Fim: {desafio1.data_fim}")
-
+    # Cria uma nova pessoa
+    pessoa = pessoa_controller.criar_pessoa(nome, idm, saldo, score)
+    print(f"Pessoa criada: {pessoa}")
+    # Cria um desafio
+    descricao = input("Digite a descrição do desafio: ")
+    data_inicio = input("Digite a data de início do desafio (YYYY-MM-DD): ")
+    data_fim = input("Digite a data de fim do desafio (YYYY-MM-DD): ")
+    valor_aposta = int(input("Digite o valor da aposta: "))
+    desafio = desafio_controller.criar_desafio(1, descricao, data_inicio, data_fim, valor_aposta)
+    print(f"Desafio criado: {desafio.descricao}")
+    # Adiciona a pessoa como participante do desafio
+    mensagem = desafio_controller.adicionar_participante(desafio, pessoa)
+    print(mensagem)
 
     if __name__ == "__main__":
         main()
