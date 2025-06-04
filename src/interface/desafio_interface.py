@@ -15,7 +15,7 @@ class Desafio(ABC):
         pass
 
     @abstractmethod
-    def encerra_desafio(self) -> None:
+    def encerrar_desafio(self) -> None:
         pass
 
     @abstractmethod
