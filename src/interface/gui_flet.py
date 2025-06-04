@@ -21,7 +21,7 @@ def flet_main(page: ft.Page):
 
     output = ft.Text()
 
-    def criar_pessoa(e):
+    def criar_pessoa_desafio(e):
         pessoa = pessoa_controller.criar_pessoa(
             nome.value,
             idm.value,
@@ -56,7 +56,7 @@ def flet_main(page: ft.Page):
                 data_fim,
                 valor_aposta,
                 limite_participantes,
-                ft.ElevatedButton("Criar Pessoa e Desafio", on_click=criar_desafio),
+                ft.ElevatedButton("Criar Pessoa e Desafio", on_click=criar_pessoa_desafio),
                 output,
             ]
         )
