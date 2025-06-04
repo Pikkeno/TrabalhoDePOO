@@ -1,9 +1,8 @@
 from src.controllers.desafio_controller import DesafioController
 from src.controllers.pessoa_controller import PessoaController
+import sys
 
-
-def main():
-    # Inicializa os controladores
+def cli_main():    # Inicializa os controladores
     desafio_controller = DesafioController()
     pessoa_controller = PessoaController()
 
@@ -28,6 +27,19 @@ def main():
     # Adiciona a pessoa como participante do desafio
     mensagem = desafio_controller.adicionar_participante(desafio, pessoa)
     print(mensagem)
+
+def main():
+
+    if len(sys.argv) > 1 and sys.argv[1] == "gui":
+        try:
+            import flet as ft
+            from src.interface.gui_flet import flet_main
+        except ModuleNotFoundError:
+            print("Flet não está instalado. Execute 'pip install flet' para instalar.")
+            sys.exit(1)
+        ft.app(target=flet_main)
+    else:
+        cli_main()
 
 if __name__ == "__main__":
     main()
