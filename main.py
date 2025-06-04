@@ -26,5 +26,5 @@ def main():
     mensagem = desafio_controller.adicionar_participante(desafio, pessoa)
     print(mensagem)
 
-    if __name__ == "__main__":
-        main()
+if __name__ == "__main__":
+    main()
