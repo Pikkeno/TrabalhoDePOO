@@ -1,5 +1,5 @@
 class Pessoa:
-    def __init__(self, nome, idm, saldo, score, valor_aposta=None, oponente=None):
+    def __init__(self, nome, idm, saldo=0, score=0, valor_aposta=None, oponente=None):
         """Cria uma nova pessoa.
 
         Parameters
@@ -19,8 +19,8 @@ class Pessoa:
         """
         self.nome = nome
         self.idm = idm
-        self.saldo = saldo
-        self.score = score
+        self.saldo = max(0, saldo)
+        self.score = max(0, score)
         self.valor_aposta = valor_aposta
         self.oponente = oponente
 
