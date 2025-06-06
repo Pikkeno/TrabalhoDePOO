@@ -6,11 +6,8 @@ class PessoaController:
     def __init__(self):
         self.pessoas = []  # Lista de pessoas registradas
 
-    def criar_pessoa(self, nome, idm, saldo=0, score=0):
-        """
-        Cria uma nova pessoa e a adiciona à lista de pessoas.
-        """
-        pessoa = Pessoa(nome, idm)
+    def criar_pessoa(self, nome, idm):
+        pessoa = Pessoa(nome, idm, saldo=0, score=0)
         self.pessoas.append(pessoa)
         return pessoa
 

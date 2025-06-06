@@ -8,11 +8,8 @@ def cli_main():    # Inicializa os controladores
 
     nome = input("Digite seu nome: ")
     idm = input("Digite seu IDM: ")
-    saldo = int(input("Digite seu saldo inicial: "))
-    score = int(input("Digite seu score inicial: "))
-
     # Cria uma nova pessoa
-    pessoa = pessoa_controller.criar_pessoa(nome, idm, saldo, score)
+    pessoa = pessoa_controller.criar_pessoa(nome, idm)
     print(f"Pessoa criada: {pessoa}")
     # Cria um desafio
     descricao = input("Digite a descrição do desafio: ")
