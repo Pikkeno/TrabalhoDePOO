@@ -23,19 +23,44 @@ def flet_main(page: ft.Page):
     usuario_login, senha_login = cria_campo_login()
     login_output = ft.Text()
 
-    def mostrar_cadastro(e=None):
+    def mostrar_cadastro_pessoa(e=None):
+        """Exibe a tela de criação de conta."""
         page.clean()
         nome, idm, email, senha = criar_campos_pessoa()
         descricao, data_inicio, data_fim, valor_aposta, limite_participantes = criar_campos_desafio()
         output = ft.Text()
 
-        def criar_desafio(e):
+        def criar_conta(e):
             pessoa = pessoa_controller.criar_pessoa(
                 nome.value,
                 idm.value,
                 email=email.value,
                 senha=senha.value,
             )
+            output.value = f"Conta criada para {pessoa.nome}"
+            mostrar_cadastro_desafio(pessoa)
+
+        page.add(
+            ft.Column(
+                [
+                    nome,
+                    idm,
+                    email,
+                    senha,
+                    ft.ElevatedButton("Criar Conta", on_click=criar_conta),
+                    output,
+                    ft.TextButton("Voltar", on_click=lambda e: mostrar_login()),
+                ]
+            )
+        )
+
+    def mostrar_cadastro_desafio(pessoa):
+        """Exibe a tela de criação de desafio."""
+        page.clean()
+        descricao, data_inicio, data_fim, valor_aposta, limite_participantes = criar_campos_desafio()
+        output = ft.Text()
+
+        def criar_desafio(e):
             desafio = desafio_controller.criar_desafio(
                 1,
                 descricao.value,
@@ -46,7 +71,6 @@ def flet_main(page: ft.Page):
             )
             mensagem = desafio_controller.adicionar_participante(desafio, pessoa)
             output.value = (
-                f"Pessoa criada: {pessoa.nome}\n"
                 f"Desafio criado: {desafio.descricao}\n"
                 f"{mensagem}"
             )
@@ -55,18 +79,14 @@ def flet_main(page: ft.Page):
         page.add(
             ft.Column(
                 [
-                    nome,
-                    idm,
-                    email,
-                    senha,
                     descricao,
                     data_inicio,
                     data_fim,
                     valor_aposta,
                     limite_participantes,
-                    ft.ElevatedButton("Criar Pessoa e Desafio", on_click=criar_desafio),
+                    ft.ElevatedButton("Criar Desafio", on_click=criar_desafio),
                     output,
-                    ft.TextButton("Voltar", on_click=lambda e: mostrar_login()),
+                    ft.TextButton("Voltar", on_click=lambda e: mostrar_cadastro_pessoa()),
                 ]
             )
         )
@@ -86,7 +106,7 @@ def flet_main(page: ft.Page):
                     ft.Row(
                         [
                             ft.ElevatedButton("Entrar", on_click=realizar_login),
-                            ft.TextButton("Criar conta", on_click=mostrar_cadastro),
+                            ft.TextButton("Criar conta", on_click=mostrar_cadastro_pessoa),
                         ]
                     ),
                     login_output,
