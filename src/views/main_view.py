@@ -1,4 +1,11 @@
 import flet as ft
+import os
+import sys
+
+if __package__ is None:
+    sys.path.append(
+        os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+    )
 
 from src.controllers.desafio_controller import DesafioController
 from src.controllers.pessoa_controller import PessoaController
@@ -54,8 +61,13 @@ def flet_main(page: ft.Page):
                 data_fim,
                 valor_aposta,
                 limite_participantes,
-                ft.ElevatedButton("Criar Pessoa e Desafio", on_click=criar_desafio),
+                ft.ElevatedButton(
+                    "Criar Pessoa e Desafio", on_click=criar_desafio
+                ),
                 output,
             ]
         )
     )
+
+if __name__ == "__main__":
+    ft.app(target=flet_main)
