@@ -50,5 +50,15 @@ class TestDesafioRecompensa(unittest.TestCase):
         p4 = Pessoa('Diana', '4', 100, 0)
         self.assertFalse(desafio.add_participante(p4), "Não deveria permitir adicionar um quarto participante, excedendo o limite.")
 
+def test_validacao_formato_data(self):
+        # Formato correto deve funcionar
+        try:
+            Desafio(4, 'Formato Ok', '10-10-2023', '20-10-2023', 10)
+        except ValueError:
+            self.fail('Datas no formato DD-MM-YYYY deveriam ser aceitas.')
+
+        # Formato incorreto deve lançar erro
+        with self.assertRaises(ValueError):
+            Desafio(5, 'Formato Errado', '2023-10-10', '2023-10-20', 10)
 if __name__ == '__main__':
     unittest.main()

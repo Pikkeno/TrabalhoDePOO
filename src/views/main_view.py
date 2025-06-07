@@ -1,6 +1,7 @@
 import flet as ft
 import os
 import sys
+from src.utils.logger import logger
 
 if __package__ is None:
     sys.path.append(
@@ -16,6 +17,7 @@ from src.views.login_view import cria_campo_login
 def flet_main(page: ft.Page):
     """Configura a tela principal da aplicação."""
     page.title = "Sistema de Desafios"
+    logger.info("Iniciando o GymBet com Flet...")
 
     desafio_controller = DesafioController()
     pessoa_controller = PessoaController()
@@ -38,6 +40,7 @@ def flet_main(page: ft.Page):
                 senha=senha.value,
             )
             output.value = f"Conta criada para {pessoa.nome}"
+            logger.info("Conta criada para %s", pessoa.nome)
             mostrar_cadastro_desafio(pessoa)
 
         page.add(
@@ -61,21 +64,25 @@ def flet_main(page: ft.Page):
         output = ft.Text()
 
         def criar_desafio(e):
-            desafio = desafio_controller.criar_desafio(
-                1,
-                descricao.value,
-                data_inicio.value,
-                data_fim.value,
-                int(valor_aposta.value),
-                int(limite_participantes.value)
-            )
-            mensagem = desafio_controller.adicionar_participante(desafio, pessoa)
-            output.value = (
-                f"Desafio criado: {desafio.descricao}\n"
-                f"{mensagem}"
-            )
+            try:
+                desafio = desafio_controller.criar_desafio(
+                    1,
+                    descricao.value,
+                    data_inicio.value,
+                    data_fim.value,
+                    int(valor_aposta.value),
+                    int(limite_participantes.value)
+                )
+            except ValueError as exc:
+                output.value = f"Erro ao criar desafio: {exc}"
+            else:
+                mensagem = desafio_controller.adicionar_participante(desafio, pessoa)
+                output.value = (
+                    f"Desafio criado: {desafio.descricao}\n"
+                    f"{mensagem}"
+                )
             page.update()
-
+            logger.info("Desafio criado via Flet: %s", descricao.value)
         page.add(
             ft.Column(
                 [
@@ -91,10 +98,57 @@ def flet_main(page: ft.Page):
             )
         )
 
+    def listar_desafios_por_status(status: str):
+        """Gera uma lista de ListTile para os desafios com o status informado."""
+        desafios = [d for d in desafio_controller.desafios if d.status == status]
+        if not desafios:
+            return [ft.ListTile(title=ft.Text("Nenhum desafio."))]
+        return [
+            ft.ListTile(
+                title=ft.Text(f"Desafio {d.id}"),
+                subtitle=ft.Text(d.descricao),
+            )
+            for d in desafios
+        ]
+
+    def mostrar_dashboard(e=None):
+        page.clean()
+
+        abertos = ft.ListView(
+            controls=listar_desafios_por_status("Ativo"),
+            padding=10,
+            spacing=10,
+        )
+
+        encerrados = ft.ListView(
+            controls=listar_desafios_por_status("Encerrado"),
+            padding=10,
+            spacing=10,
+        )
+
+        historico = ft.ListView(
+            controls=listar_desafios_por_status("Encerrado"),
+            padding=10,
+            spacing=10,
+        )
+
+        tabs = ft.Tabs(
+            expand=1,
+            tabs=[
+                ft.Tab(text="Abertos", content=abertos),
+                ft.Tab(text="Encerrados", content=encerrados),
+                ft.Tab(text="Histórico", content=historico),
+            ],
+        )
+
+        page.add(ft.Container(tabs, padding=20, bgcolor=ft.colors.GREY_100))
+
     def realizar_login(e):
         # Funcionalidade de login simplificada
         login_output.value = f"Login de {usuario_login.value}"
-
+        logger.info("Login realizado por %s", usuario_login.value)
+        
+        mostrar_dashboard()
         page.update()
     def mostrar_login():
         page.clean()
