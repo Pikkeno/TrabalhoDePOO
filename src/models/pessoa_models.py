@@ -1,5 +1,5 @@
 class Pessoa:
-    def __init__(self, nome, idm, saldo=0, score=0, valor_aposta=None, oponente=None):
+    def __init__(self, nome, idm, saldo=0, score=0, email=None, senha=None, valor_aposta=None, oponente=None):
         """Cria uma nova pessoa.
 
         Parameters
@@ -12,6 +12,10 @@ class Pessoa:
             Saldo inicial disponível.
         score : int
             Score inicial da pessoa.
+        email : str | None, optional
+            E-mail da pessoa.
+        senha : str | None, optional
+            Senha da pessoa.
         valor_aposta : int | float | None, optional
             Valor da aposta atual da pessoa. ``None`` indica que não há aposta registrada.
         oponente : Pessoa | None, optional
@@ -21,10 +25,15 @@ class Pessoa:
         self.idm = idm
         self.saldo = max(0, saldo)
         self.score = max(0, score)
+        self.email = email
+        self.senha = senha
         self.valor_aposta = valor_aposta
         self.oponente = oponente
 
     def __str__(self):
-        return f"Pessoa(nome={self.nome}, idm={self.idm}, saldo={self.saldo}, score={self.score})"
+        return (
+            f"Pessoa(nome={self.nome}, idm={self.idm}, saldo={self.saldo}, "
+            f"score={self.score}, email={self.email})"
+        )
 
     
