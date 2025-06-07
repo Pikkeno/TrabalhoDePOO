@@ -14,7 +14,7 @@ def flet_main(page: ft.Page):
     pessoa_controller = PessoaController()
 
     # Campos de formulário
-    nome, idm = criar_campos_pessoa()
+    nome, idm, email, senha = criar_campos_pessoa()
     descricao, data_inicio, data_fim, valor_aposta, limite_participantes = criar_campos_desafio()
 
     output = ft.Text()
@@ -22,7 +22,9 @@ def flet_main(page: ft.Page):
     def criar_desafio(e):
         pessoa = pessoa_controller.criar_pessoa(
             nome.value,
-            idm.value
+            idm.value,
+            email=email.value,
+            senha=senha.value,
         )
         desafio = desafio_controller.criar_desafio(
             1,
@@ -45,6 +47,8 @@ def flet_main(page: ft.Page):
             [
                 nome,
                 idm,
+                email,
+                senha,
                 descricao,
                 data_inicio,
                 data_fim,

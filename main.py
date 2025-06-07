@@ -7,9 +7,11 @@ def cli_main():    # Inicializa os controladores
     pessoa_controller = PessoaController()
 
     nome = input("Digite seu nome: ")
+    email = input("Digite seu email: ")
+    senha = input("Digite sua senha: ")
     idm = input("Digite seu IDM: ")
     # Cria uma nova pessoa
-    pessoa = pessoa_controller.criar_pessoa(nome, idm)
+    pessoa = pessoa_controller.criar_pessoa(nome, idm, email=email, senha=senha)
     print(f"Pessoa criada: {pessoa}")
     # Cria um desafio
     descricao = input("Digite a descrição do desafio: ")
