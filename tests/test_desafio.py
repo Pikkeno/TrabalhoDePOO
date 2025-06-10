@@ -12,7 +12,7 @@ class TestDesafioRecompensa(unittest.TestCase):
     def setUp(self):
         self.p1 = Pessoa('Alice', '1', 100, 0)
         self.p2 = Pessoa('Bernardo', '2', 100, 0)
-        self.desafio = Desafio(1, 'Desafio de Teste', '2023-10-01', '2023-10-31', 50)
+        self.desafio = Desafio(1, 'Desafio de Teste', '01-10-2023', '31-10-2023', 50)
         self.desafio.add_participante(self.p1)
         self.desafio.add_participante(self.p2)
 
@@ -28,7 +28,7 @@ class TestDesafioRecompensa(unittest.TestCase):
         self.assertEqual(self.p1.saldo, saldo_anterior + self.desafio.valor_aposta, "Saldo do vencedor deveria ser atualizado corretamente.")
 
     def test_recompensa_sem_encerrar_desafio(self):
-        desafio_nao_encerrado = Desafio(2, 'Desafio Não Encerrado', '2023-10-01', '2023-10-31', 50)
+        desafio_nao_encerrado = Desafio(2, 'Desafio Não Encerrado', '01-10-2023', '31-10-2023', 50)
         desafio_nao_encerrado.add_participante(self.p1)
         desafio_nao_encerrado.add_participante(self.p2)
 
@@ -40,7 +40,7 @@ class TestDesafioRecompensa(unittest.TestCase):
         self.assertEqual(self.p1.saldo, saldo_anterior, "Saldo do vencedor não deveria ser alterado.")
 
     def test_limite_variavel_participantes(self):
-        desafio = Desafio(3, 'Equipe Grande', '2023-10-01', '2023-10-31', 50, limite_participantes=3)
+        desafio = Desafio(3, 'Equipe Grande', '01-10-2023', '31-10-2023', 50, limite_participantes=3)
         p3 = Pessoa('Carlos', '3', 100, 0)
 
         self.assertTrue(desafio.add_participante(self.p1), "Deveria permitir adicionar o primeiro participante.")
@@ -50,5 +50,15 @@ class TestDesafioRecompensa(unittest.TestCase):
         p4 = Pessoa('Diana', '4', 100, 0)
         self.assertFalse(desafio.add_participante(p4), "Não deveria permitir adicionar um quarto participante, excedendo o limite.")
 
+def test_validacao_formato_data(self):
+        # Formato correto deve funcionar
+        try:
+            Desafio(4, 'Formato Ok', '10-10-2023', '20-10-2023', 10)
+        except ValueError:
+            self.fail('Datas no formato DD-MM-YYYY deveriam ser aceitas.')
+
+        # Formato incorreto deve lançar erro
+        with self.assertRaises(ValueError):
+            Desafio(5, 'Formato Errado', '2023-10-10', '2023-10-20', 10)
 if __name__ == '__main__':
     unittest.main()

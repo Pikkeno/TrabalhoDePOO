@@ -1,7 +1,15 @@
+from datetime import datetime
 
 class Desafio:
     def __init__(self, id, descricao, data_inicio, data_fim, valor_aposta,
                  limite_participantes: int=2):
+        
+        try:
+            datetime.strptime(data_inicio, "%d-%m-%Y")
+            datetime.strptime(data_fim, "%d-%m-%Y")
+        except ValueError as exc:
+            raise ValueError("As datas devem estar no formato 'dd-mm-aaaa'.") from exc
+        
         self.id = id
         self.descricao = descricao
         self.data_inicio = data_inicio
