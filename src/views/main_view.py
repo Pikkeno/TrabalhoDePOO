@@ -1,18 +1,19 @@
 import flet as ft
 import os
 import sys
-from src.utils.logger import logger
 
 if __package__ is None:
     sys.path.append(
-        os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-    )
+        os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+    
 
 from src.controllers.desafio_controller import DesafioController
 from src.controllers.pessoa_controller import PessoaController
+from src.utils.logger import logger
 from src.views.pessoa_view import criar_campos_pessoa
 from src.views.desafio_view import criar_campos_desafio
 from src.views.login_view import cria_campo_login
+
 
 def flet_main(page: ft.Page):
     """Configura a tela principal da aplicação."""
