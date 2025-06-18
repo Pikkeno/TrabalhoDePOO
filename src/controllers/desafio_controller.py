@@ -1,4 +1,5 @@
 # src/controllers/desafio_controller.py
+from src.interface.desafio_interface import DesafioInterface
 from src.models.desafio_models import Desafio
 from src.utils.logger import logger
 class DesafioController:

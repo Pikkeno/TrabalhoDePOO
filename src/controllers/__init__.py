@@ -1,0 +1,3 @@
+from .pessoa_controller import PessoaController
+from .desafio_controller import DesafioController
+from .equipe_controller import EquipeController

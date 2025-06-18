@@ -9,6 +9,7 @@ if __package__ is None:
 
 from src.controllers.desafio_controller import DesafioController
 from src.controllers.pessoa_controller import PessoaController
+from src.controllers.equipe_controller import EquipeController
 from src.utils.logger import logger
 from src.views.pessoa_view import criar_campos_pessoa
 from src.views.desafio_view import criar_campos_desafio
@@ -22,6 +23,7 @@ def flet_main(page: ft.Page):
 
     desafio_controller = DesafioController()
     pessoa_controller = PessoaController()
+    EquipeController = EquipeController()
 
     usuario_login, senha_login = cria_campo_login()
     login_output = ft.Text()
@@ -143,7 +145,7 @@ def flet_main(page: ft.Page):
         )
 
         page.add(ft.Container(tabs, padding=20, bgcolor=ft.colors.GREY_100))
-
+    
     def realizar_login(e):
         # Funcionalidade de login simplificada
         login_output.value = f"Login de {usuario_login.value}"

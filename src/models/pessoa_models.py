@@ -29,11 +29,18 @@ class Pessoa:
         self.senha = senha
         self.valor_aposta = valor_aposta
         self.oponente = oponente
+        self.amigos = []
 
     def __str__(self):
         return (
             f"Pessoa(nome={self.nome}, idm={self.idm}, saldo={self.saldo}, "
             f"score={self.score}, email={self.email})"
         )
-
+    
+    def adicionar_amigo(self, amigo):
+        """Adiciona uma pessoa à lista de amigos se ainda não estiver presente."""
+        if amigo not in self.amigos:
+            self.amigos.append(amigo)
+            return True
+        return False
     
