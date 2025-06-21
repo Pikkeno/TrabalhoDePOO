@@ -20,12 +20,12 @@ class PessoaController:
                 return pessoa
         return None
     
-    def adcionar_amigo(self, pessoa, id_amigo):
+    def adicionar_amigo(self, pessoa, id_amigo):
         """Adiciona um amigo"""
-        amigo= self.buscar_por_id(id_amigo)
+        amigo = self.buscar_por_id(id_amigo)
         if not amigo:
             return "Amigo não encontrado."
-        if pessoa.adcionar.idm(amigo):
+        if pessoa.adicionar.idm(amigo):
             return f"{amigo.nome} adicionado como amigo."
         return f"{amigo.nome} já é amigo."
     

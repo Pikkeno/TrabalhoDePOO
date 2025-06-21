@@ -15,10 +15,32 @@ class Desafio:
         self.data_inicio = data_inicio
         self.data_fim = data_fim
         self.valor_aposta = valor_aposta
+        self._limite_participantes = 2
         self.limite_participantes = limite_participantes
+        self._status = "Ativo"
         self.status = "Ativo"  # O status inicial é 'Ativo'
         self.participantes = []  # Lista de participantes
         self.vencedor = None  # Nenhum vencedor até o desafio ser encerrado
+
+    @property
+    def limite_participantes(self):
+        return self._limite_participantes
+
+    @limite_participantes.setter
+    def limite_participantes(self, value):
+        if value <= 0:
+            raise ValueError("limite_participantes deve ser maior que zero")
+        self._limite_participantes = value
+
+    @property
+    def status(self):
+        return self._status
+
+    @status.setter
+    def status(self, value):
+        if value not in ("Ativo", "Encerrado"):
+            raise ValueError("Status deve ser 'Ativo' ou 'Encerrado'")
+        self._status = value
 
     def add_participante(self, participante):
         """

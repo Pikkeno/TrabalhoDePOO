@@ -23,13 +23,43 @@ class Pessoa:
         """
         self.nome = nome
         self.idm = idm
-        self.saldo = max(0, saldo)
-        self.score = max(0, score)
+        self._saldo = 0
+        self.saldo = saldo
+        self._score = 0
+        self.score = score
         self.email = email
         self.senha = senha
+        self._valor_aposta = None
         self.valor_aposta = valor_aposta
         self.oponente = oponente
         self.amigos = []
+
+        @property
+    def saldo(self):
+        return self._saldo
+
+    @saldo.setter
+    def saldo(self, value):
+        self._saldo = max(0, value)
+
+    @property
+    def score(self):
+        return self._score
+
+    @score.setter
+    def score(self, value):
+        self._score = max(0, value)
+
+    @property
+    def valor_aposta(self):
+        return self._valor_aposta
+
+    @valor_aposta.setter
+    def valor_aposta(self, value):
+        if value is None:
+            self._valor_aposta = None
+        else:
+            self._valor_aposta = max(0, value)
 
     def __str__(self):
         return (
