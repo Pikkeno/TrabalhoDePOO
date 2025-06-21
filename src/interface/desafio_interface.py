@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-class Desafio(ABC):
+class DesafioInterface(ABC):
 
     @abstractmethod
     def criar_desafio(self, id, descricao, data_inicio, data_fim, valor_aposta) -> None:

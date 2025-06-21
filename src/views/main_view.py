@@ -146,6 +146,36 @@ def flet_main(page: ft.Page):
 
         page.add(ft.Container(tabs, padding=20, bgcolor=ft.colors.GREY_100))
     
+    def mostrar_pos_login(pessoa):
+        """Tela inicial após o login com opções sociais."""
+        page.clean()
+        nome_equipe = ft.TextField(label="Nome da Equipe")
+        id_amigo = ft.TextField(label="ID do Amigo")
+        output = ft.Text()
+
+        def criar_equipe(e):
+            equipe_controller.criar_equipe(nome_equipe.value, pessoa)
+            output.value = f"Equipe {nome_equipe.value} criada."
+            page.update()
+
+        def adicionar_amigo(e):
+            output.value = pessoa_controller.adicionar_amigo(pessoa, id_amigo.value)
+            page.update()
+
+        page.add(
+            ft.Column(
+                [
+                    ft.Text(f"Bem-vindo, {pessoa.nome}!"),
+                    nome_equipe,
+                    ft.ElevatedButton("Criar Equipe", on_click=criar_equipe),
+                    id_amigo,
+                    ft.ElevatedButton("Adicionar Amigo", on_click=adicionar_amigo),
+                    ft.ElevatedButton("Ir para Dashboard", on_click=lambda e: mostrar_dashboard()),
+                    output,
+                ]
+            )
+        )
+    
     def realizar_login(e):
         # Funcionalidade de login simplificada
         login_output.value = f"Login de {usuario_login.value}"
