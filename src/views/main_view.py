@@ -23,7 +23,7 @@ def flet_main(page: ft.Page):
 
     desafio_controller = DesafioController()
     pessoa_controller = PessoaController()
-    EquipeController = EquipeController()
+    equipe_controller = EquipeController()
 
     usuario_login, senha_login = cria_campo_login()
     login_output = ft.Text()
@@ -144,7 +144,7 @@ def flet_main(page: ft.Page):
             ],
         )
 
-        page.add(ft.Container(tabs, padding=20, bgcolor=ft.colors.GREY_100))
+        page.add(ft.Container(tabs, padding=20, bgcolor=ft.Colors.GREY_100))
     
     def mostrar_pos_login(pessoa):
         """Tela inicial após o login com opções sociais."""

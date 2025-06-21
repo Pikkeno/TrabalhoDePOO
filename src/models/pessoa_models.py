@@ -34,7 +34,7 @@ class Pessoa:
         self.oponente = oponente
         self.amigos = []
 
-        @property
+    @property
     def saldo(self):
         return self._saldo
 
