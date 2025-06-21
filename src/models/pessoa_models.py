@@ -1,5 +1,7 @@
+import uuid
+
 class Pessoa:
-    def __init__(self, nome, idm, saldo=0, score=0, email=None, senha=None, valor_aposta=None, oponente=None):
+    def __init__(self, nome, idm=None, saldo=0, score=0, email=None, senha=None, valor_aposta=None, oponente=None):
         """Cria uma nova pessoa.
 
         Parameters
@@ -22,7 +24,7 @@ class Pessoa:
             Oponente da pessoa em uma aposta/desafio. ``None`` indica que não há oponente definido.
         """
         self.nome = nome
-        self.idm = idm
+        self._idm = idm or uuid.uuid4().hex
         self._saldo = 0
         self.saldo = saldo
         self._score = 0
@@ -33,6 +35,11 @@ class Pessoa:
         self.valor_aposta = valor_aposta
         self.oponente = oponente
         self.amigos = []
+
+    @property
+    def idm(self):
+        """Retorna o identificador único da pessoa."""
+        return self._idm
 
     @property
     def saldo(self):

@@ -31,26 +31,25 @@ def flet_main(page: ft.Page):
     def mostrar_cadastro_pessoa(e=None):
         """Exibe a tela de criação de conta."""
         page.clean()
-        nome, idm, email, senha = criar_campos_pessoa()
-        descricao, data_inicio, data_fim, valor_aposta, limite_participantes = criar_campos_desafio()
+        nome, email, senha = criar_campos_pessoa()
         output = ft.Text()
 
         def criar_conta(e):
             pessoa = pessoa_controller.criar_pessoa(
                 nome.value,
-                idm.value,
                 email=email.value,
                 senha=senha.value,
             )
-            output.value = f"Conta criada para {pessoa.nome}"
+            output.value = (
+                f"Conta criada para {pessoa.nome}. "
+            )
             logger.info("Conta criada para %s", pessoa.nome)
-            mostrar_cadastro_desafio(pessoa)
+            page.update()
 
         page.add(
             ft.Column(
                 [
                     nome,
-                    idm,
                     email,
                     senha,
                     ft.ElevatedButton("Criar Conta", on_click=criar_conta),
@@ -183,7 +182,11 @@ def flet_main(page: ft.Page):
         logger.info("Login realizado por %s", usuario_login.value)
         pessoa = pessoa_controller.buscar_por_id(usuario_login.value)
         if not pessoa:
-            pessoa = pessoa_controller.criar_pessoa(usuario_login.value, usuario_login.value)
+            pessoa = pessoa_controller.criar_pessoa(
+                usuario_login.value,
+                email=None,
+                senha=None,
+            )
 
         mostrar_pos_login(pessoa)
         page.update()

@@ -1,4 +1,10 @@
 import unittest
+import os
+import sys
+
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(ROOT_DIR)
+
 from src.models.pessoa_models import Pessoa
 from src.models.desafio_models import Desafio
 

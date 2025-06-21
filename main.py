@@ -11,16 +11,16 @@ def cli_main():    # Inicializa os controladores
     nome = input("Digite seu nome: ")
     email = input("Digite seu email: ")
     senha = input("Digite sua senha: ")
-    idm = input("Digite seu IDM: ")
-    # Cria uma nova pessoa
-    pessoa = pessoa_controller.criar_pessoa(nome, idm, email=email, senha=senha)
+    # Cria uma nova pessoa com IDM aleatório
+    pessoa = pessoa_controller.criar_pessoa(nome, email=email, senha=senha)
     print(f"Pessoa criada: {pessoa}")
-    from datetime import datetime
  
     # Cria um desafio
     descricao = input("Digite a descrição do desafio: ")
     data_inicio = input("Digite a data de início do desafio (DD-MM-YYYY): ")
     data_fim = input("Digite a data de fim do desafio (DD-MM-YYYY): ")
+    valor_aposta = input("Digite o valor da aposta: ")
+    limite = input("Digite o limite de participantes: ")
 
     try:
         desafio = desafio_controller.criar_desafio(

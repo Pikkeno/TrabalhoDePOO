@@ -14,7 +14,6 @@ class TestCliMainInvalidDate(unittest.TestCase):
             'Alice',            # nome
             'alice@example.com', # email
             'senha123',         # senha
-            '1',                # idm
             'Teste',            # descricao
             '2023-01-01',       # data_inicio invalida
             '2023-01-31',       # data_fim invalida
