@@ -35,15 +35,20 @@ def flet_main(page: ft.Page):
         output = ft.Text()
 
         def criar_conta(e):
-            pessoa = pessoa_controller.criar_pessoa(
+            pessoa = pessoa_controller.registrar_pessoa(
                 nome.value,
+                None,
                 email=email.value,
                 senha=senha.value,
             )
-            output.value = (
-                f"Conta criada para {pessoa.nome}. "
-            )
-            logger.info("Conta criada para %s", pessoa.nome)
+            if pessoa is None:
+                output.value = "Email ou ID já cadastrado."
+                logger.warning(
+                    "Tentativa de cadastro com email ou ID duplicado: %s", email.value
+                )
+            else:
+                output.value = f"Conta criada para {pessoa.nome}. "
+                logger.info("Conta criada para %s", pessoa.nome)
             page.update()
 
         page.add(
@@ -177,18 +182,20 @@ def flet_main(page: ft.Page):
         )
     
     def realizar_login(e):
-        # Funcionalidade de login simplificada
-        login_output.value = f"Login de {usuario_login.value}"
-        logger.info("Login realizado por %s", usuario_login.value)
-        pessoa = pessoa_controller.buscar_por_id(usuario_login.value)
-        if not pessoa:
-            pessoa = pessoa_controller.criar_pessoa(
-                usuario_login.value,
-                email=None,
-                senha=None,
+        pessoa = pessoa_controller.autenticar(
+            usuario_login.value,
+            senha_login.value,
+        )
+        if pessoa:
+            login_output.value = f"Login de {pessoa.nome}"
+            logger.info("Login realizado por %s", pessoa.nome)
+            mostrar_pos_login(pessoa)
+        else:
+            login_output.value = "Credenciais inválidas."
+            logger.warning(
+                "Falha no login para %s", usuario_login.value
             )
 
-        mostrar_pos_login(pessoa)
         page.update()
     def mostrar_login():
         page.clean()
@@ -211,4 +218,5 @@ def flet_main(page: ft.Page):
     mostrar_login()
 
 if __name__ == "__main__":
+
     ft.app(target=flet_main)
