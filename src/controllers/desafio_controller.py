@@ -61,19 +61,25 @@ class DesafioController:
         Encerra o desafio e define o vencedor.
         """
         sucesso, mensagem = desafio.encerrar_desafio(vencedor)
-        return mensagem
         if sucesso:
             logger.info(
                 "Desafio %s encerrado. Vencedor: %s.",
                 desafio.id, 
                 vencedor.nome,
             )
+        else:
+            logger.warning(
+                "Falha ao encerrar o desafio %s: %s",
+                desafio.id,
+                mensagem,
+            )
+        return mensagem
+    
     def recompensar_participantes(self, desafio):
         """
         Recompensa os participantes com base no resultado do desafio.
         """
         sucesso, mensagem = desafio.recompensa_participantes()
-        return mensagem
         if sucesso:
             logger.info(
                 "Participantes recompensados no desafio %s.",
@@ -85,6 +91,7 @@ class DesafioController:
                 desafio.id, 
                 mensagem,
             )
+        return mensagem
 
     def listar_desafios(self):
         """

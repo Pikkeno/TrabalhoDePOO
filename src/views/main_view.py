@@ -170,6 +170,7 @@ def flet_main(page: ft.Page):
                     ft.ElevatedButton("Criar Equipe", on_click=criar_equipe),
                     id_amigo,
                     ft.ElevatedButton("Adicionar Amigo", on_click=adicionar_amigo),
+                    ft.ElevatedButton("Criar Desafio", on_click=lambda e: mostrar_cadastro_desafio(pessoa)),
                     ft.ElevatedButton("Ir para Dashboard", on_click=lambda e: mostrar_dashboard()),
                     output,
                 ]
@@ -180,8 +181,11 @@ def flet_main(page: ft.Page):
         # Funcionalidade de login simplificada
         login_output.value = f"Login de {usuario_login.value}"
         logger.info("Login realizado por %s", usuario_login.value)
-        
-        mostrar_dashboard()
+        pessoa = pessoa_controller.buscar_por_id(usuario_login.value)
+        if not pessoa:
+            pessoa = pessoa_controller.criar_pessoa(usuario_login.value, usuario_login.value)
+
+        mostrar_pos_login(pessoa)
         page.update()
     def mostrar_login():
         page.clean()
