@@ -242,7 +242,7 @@ def flet_main(page: ft.Page):
         """Tela inicial após o login com opções sociais."""
         page.clean()
         nome_equipe = ft.TextField(label="Nome da Equipe")
-        id_amigo = ft.TextField(label="ID do Amigo")
+        nome_amigo = ft.TextField(label="Nome do Amigo")
         output = ft.Text()
 
         def criar_equipe(e):
@@ -251,7 +251,7 @@ def flet_main(page: ft.Page):
             page.update()
 
         def adicionar_amigo(e):
-            output.value = pessoa_controller.adicionar_amigo(pessoa, id_amigo.value)
+            output.value = pessoa_controller.adicionar_amigo(pessoa, nome_amigo.value)
             page.update()
 
         page.add(

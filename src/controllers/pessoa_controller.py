@@ -69,6 +69,20 @@ class PessoaController:
                 return pessoa
         return None
     
+    def buscar_por_email(self, email):
+        """Retorna uma pessoa pelo email."""
+        for pessoa in self.pessoas:
+            if pessoa.email == email:
+                return pessoa
+        return None
+
+    def buscar_por_nome(self, nome):
+        """Retorna uma pessoa pelo nome."""
+        for pessoa in self.pessoas:
+            if pessoa.nome == nome:
+                return pessoa
+        return None
+    
     def autenticar(self, email, senha):
         """Retorna a pessoa autenticada ou None se falhar."""
         for pessoa in self.pessoas:
@@ -76,9 +90,9 @@ class PessoaController:
                 return pessoa
         return None
     
-    def adicionar_amigo(self, pessoa, id_amigo):
-        """Adiciona um amigo"""
-        amigo = self.buscar_por_id(id_amigo)
+    def adicionar_amigo(self, pessoa, nome_amigo):
+        """Adiciona um amigo usando o nome"""
+        amigo = self.buscar_por_nome(nome_amigo)
         if not amigo:
             return "Amigo não encontrado."
         if pessoa.adicionar_amigo(amigo):
