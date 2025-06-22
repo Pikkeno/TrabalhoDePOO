@@ -75,8 +75,8 @@ def mostrar_gerenciamento_equipes(page, pessoa, equipe_controller, pessoa_contro
                             "Mostrar Integrantes",
                             on_click=mostrar_integrantes,
                             style=ft.ButtonStyle(
-                                bgcolor=ft.colors.RED_400,
-                                color=ft.colors.WHITE,
+                                bgcolor=ft.Colors.RED_400,
+                                color=ft.Colors.WHITE,
                             ),
                         ),
                     ]
@@ -88,16 +88,16 @@ def mostrar_gerenciamento_equipes(page, pessoa, equipe_controller, pessoa_contro
                             "Adicionar Membro",
                             on_click=adicionar_membro,
                             style=ft.ButtonStyle(
-                                bgcolor=ft.colors.RED_400,
-                                color=ft.colors.WHITE,
+                                bgcolor=ft.Colors.RED_400,
+                                color=ft.Colors.WHITE,
                             ),
                         ),
                         ft.ElevatedButton(
                             "Remover Membro",
                             on_click=remover_membro,
                             style=ft.ButtonStyle(
-                                bgcolor=ft.colors.RED_400,
-                                color=ft.colors.WHITE,
+                                bgcolor=ft.Colors.RED_400,
+                                color=ft.Colors.WHITE,
                             ),
                         ),
                         ft.TextButton("Voltar", on_click=voltar_callback),
@@ -110,8 +110,8 @@ def mostrar_gerenciamento_equipes(page, pessoa, equipe_controller, pessoa_contro
         ),
         padding=20,
         border_radius=8,
-        bgcolor=ft.colors.GREY_100,
-        shadow=ft.BoxShadow(blur_radius=8, color=ft.colors.GREY_400),
+        bgcolor=ft.Colors.GREY_100,
+        shadow=ft.BoxShadow(blur_radius=8, color=ft.Colors.GREY_400),
     )
 
     page.add(ft.Row([conteudo], alignment=ft.MainAxisAlignment.CENTER))

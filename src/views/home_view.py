@@ -70,10 +70,10 @@ def mostrar_pos_login(
                             voltar_callback,
 
                         ),
-                        style=ft.ButtonStyle(
+                        ),
+                    style=ft.ButtonStyle(
                         bgcolor=ft.Colors.ORANGE_400,
                         color=ft.Colors.WHITE,
-                    ),
                     ),
                 ),
                 ft.ElevatedButton(

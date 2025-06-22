@@ -58,3 +58,4 @@ def mostrar_dashboard(page, desafio_controller, voltar_callback):
     )
 
     page.add(ft.Row([conteudo], alignment=ft.MainAxisAlignment.CENTER))
+    page.update()
