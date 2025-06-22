@@ -5,7 +5,14 @@ from src.views.dashboard_view import mostrar_dashboard
 from src.utils.logger import logger
 
 
-def mostrar_pos_login(page, pessoa, pessoa_controller, equipe_controller, desafio_controller):
+def mostrar_pos_login(
+    page,
+    pessoa,
+    pessoa_controller,
+    equipe_controller,
+    desafio_controller,
+    voltar_callback,
+):
     """Tela inicial após o login com opções sociais."""
     page.clean()
     nome_equipe = ft.TextField(label="Nome da Equipe")
@@ -42,6 +49,8 @@ def mostrar_pos_login(page, pessoa, pessoa_controller, equipe_controller, desafi
                             pessoa_controller,
                             equipe_controller,
                             desafio_controller,
+                            voltar_callback,
+
                         ),
                     ),
                 ),
@@ -57,14 +66,27 @@ def mostrar_pos_login(page, pessoa, pessoa_controller, equipe_controller, desafi
                             pessoa_controller,
                             equipe_controller,
                             desafio_controller,
+                            voltar_callback,
                         ),
                     ),
                 ),
                 ft.ElevatedButton(
                     "Ir para Dashboard",
-                    on_click=lambda e: mostrar_dashboard(page, desafio_controller),
+                    on_click=lambda e: mostrar_dashboard(
+                        page,
+                        desafio_controller,
+                        lambda e: mostrar_pos_login(
+                            page,
+                            pessoa,
+                            pessoa_controller,
+                            equipe_controller,
+                            desafio_controller,
+                            voltar_callback,
+                        ),
+                    ),
                 ),
                 output,
+                ft.TextButton("Voltar", on_click=voltar_callback),
             ]
         )
     )

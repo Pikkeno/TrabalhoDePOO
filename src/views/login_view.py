@@ -10,7 +10,15 @@ def cria_campo_login():
     return usuario, senha
 
 
-def realizar_login(page, pessoa_controller, usuario_login, senha_login, login_output, equipe_controller, desafio_controller):
+def realizar_login(
+    page,
+    pessoa_controller,
+    usuario_login,
+    senha_login,
+    login_output,
+    equipe_controller,
+    desafio_controller,
+):
     pessoa = pessoa_controller.autenticar(
         usuario_login.value,
         senha_login.value,
@@ -24,6 +32,12 @@ def realizar_login(page, pessoa_controller, usuario_login, senha_login, login_ou
             pessoa_controller,
             equipe_controller,
             desafio_controller,
+            lambda e: mostrar_login(
+                page,
+                pessoa_controller,
+                equipe_controller,
+                desafio_controller,
+            ),
         )
     else:
         login_output.value = "Credenciais inválidas."
@@ -33,45 +47,56 @@ def realizar_login(page, pessoa_controller, usuario_login, senha_login, login_ou
     page.update()
 
 
-def mostrar_login(page, pessoa_controller, equipe_controller, desafio_controller):
+def mostrar_login(
+    page,
+    pessoa_controller,
+    equipe_controller,
+    desafio_controller,
+    voltar_callback=None,
+):
     usuario_login, senha_login = cria_campo_login()
     login_output = ft.Text()
     page.clean()
-    page.add(
-        ft.Column(
+    controles = [
+        usuario_login,
+        senha_login,
+        ft.Row(
             [
-                usuario_login,
-                senha_login,
-                ft.Row(
-                    [
-                        ft.ElevatedButton(
-                            "Entrar",
-                            on_click=lambda e: realizar_login(
-                                page,
-                                pessoa_controller,
-                                usuario_login,
-                                senha_login,
-                                login_output,
-                                equipe_controller,
-                                desafio_controller,
-                            ),
-                        ),
-                        ft.TextButton(
-                            "Criar conta",
-                            on_click=lambda e: mostrar_cadastro_pessoa(
-                                page,
-                                pessoa_controller,
-                                lambda e: mostrar_login(
-                                    page,
-                                    pessoa_controller,
-                                    equipe_controller,
-                                    desafio_controller,
-                                ),
-                            ),
-                        ),
-                    ]
+                ft.ElevatedButton(
+                    "Entrar",
+                    on_click=lambda e: realizar_login(
+                        page,
+                        pessoa_controller,
+                        usuario_login,
+                        senha_login,
+                        login_output,
+                        equipe_controller,
+                        desafio_controller,
+                    ),
                 ),
-                login_output,
+                ft.TextButton(
+                    "Criar conta",
+                    on_click=lambda e: mostrar_cadastro_pessoa(
+                        page,
+                        pessoa_controller,
+                        lambda e: mostrar_login(
+                            page,
+                            pessoa_controller,
+                            equipe_controller,
+                            desafio_controller,
+                        ),
+                    ),
+                    
+                ),
             ]
-        )
-    )
+            
+    ),
+        login_output,
+    ]
+
+    if voltar_callback is not None:
+        controles.append(ft.TextButton("Voltar", on_click=voltar_callback))
+
+    page.add(ft.Column(controles))
+        
+    

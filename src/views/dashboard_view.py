@@ -13,7 +13,7 @@ def listar_desafios_por_status(desafio_controller, status: str):
     ]
 
 
-def mostrar_dashboard(page, desafio_controller):
+def mostrar_dashboard(page, desafio_controller, voltar_callback):    
     page.clean()
     abertos = ft.ListView(
         controls=listar_desafios_por_status(desafio_controller, "Ativo"),
@@ -42,4 +42,11 @@ def mostrar_dashboard(page, desafio_controller):
         ],
     )
 
-    page.add(ft.Container(tabs, padding=20, bgcolor=ft.Colors.GREY_100))
+    page.add(
+        ft.Column(
+            [
+                ft.Container(tabs, padding=20, bgcolor=ft.Colors.GREY_100),
+                ft.TextButton("Voltar", on_click=voltar_callback),
+            ]
+        )
+    )
