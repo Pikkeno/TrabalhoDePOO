@@ -2,6 +2,7 @@ import unittest
 import sys
 import os
 import pytest
+from datetime import datetime, timedelta
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
@@ -13,7 +14,9 @@ class TestDesafioRecompensa(unittest.TestCase):
     def setUp(self):
         self.p1 = Pessoa('Alice', '1', 100, 0)
         self.p2 = Pessoa('Bernardo', '2', 100, 0)
-        self.desafio = Desafio(1, 'Desafio de Teste', '01-10-2023', '31-10-2023', 50)
+        inicio = (datetime.now() + timedelta(days=1)).strftime('%d-%m-%Y')
+        fim = (datetime.now() + timedelta(days=30)).strftime('%d-%m-%Y')
+        self.desafio = Desafio(1, 'Desafio de Teste', inicio, fim, 50)
         self.desafio.add_participante(self.p1)
         self.desafio.add_participante(self.p2)
 
@@ -29,7 +32,9 @@ class TestDesafioRecompensa(unittest.TestCase):
         self.assertEqual(self.p1.saldo, saldo_anterior + self.desafio.valor_aposta, "Saldo do vencedor deveria ser atualizado corretamente.")
 
     def test_recompensa_sem_encerrar_desafio(self):
-        desafio_nao_encerrado = Desafio(2, 'Desafio Não Encerrado', '01-10-2023', '31-10-2023', 50)
+        inicio = (datetime.now() + timedelta(days=1)).strftime('%d-%m-%Y')
+        fim = (datetime.now() + timedelta(days=30)).strftime('%d-%m-%Y')
+        desafio_nao_encerrado = Desafio(2, 'Desafio Não Encerrado', inicio, fim, 50)
         desafio_nao_encerrado.add_participante(self.p1)
         desafio_nao_encerrado.add_participante(self.p2)
 
@@ -41,7 +46,9 @@ class TestDesafioRecompensa(unittest.TestCase):
         self.assertEqual(self.p1.saldo, saldo_anterior, "Saldo do vencedor não deveria ser alterado.")
 
     def test_limite_variavel_participantes(self):
-        desafio = Desafio(3, 'Equipe Grande', '01-10-2023', '31-10-2023', 50, limite_participantes=3)
+        inicio = (datetime.now() + timedelta(days=1)).strftime('%d-%m-%Y')
+        fim = (datetime.now() + timedelta(days=30)).strftime('%d-%m-%Y')
+        desafio = Desafio(3, 'Equipe Grande', inicio, fim, 50, limite_participantes=3)
         p3 = Pessoa('Carlos', '3', 100, 0)
 
         self.assertTrue(desafio.add_participante(self.p1), "Deveria permitir adicionar o primeiro participante.")
@@ -53,9 +60,11 @@ class TestDesafioRecompensa(unittest.TestCase):
 
 def test_validacao_formato_data():
     """Valida se as datas no modelo de Desafio estão corretas."""
+    inicio = (datetime.now() + timedelta(days=1)).strftime('%d-%m-%Y')
+    fim = (datetime.now() + timedelta(days=2)).strftime('%d-%m-%Y')
     # Formato correto deve funcionar
     try:
-        Desafio(4, 'Formato Ok', '10-10-2023', '20-10-2023', 10)
+        Desafio(4, 'Formato Ok', inicio, fim, 10)
     except ValueError:
         pytest.fail('Datas no formato DD-MM-YYYY deveriam ser aceitas.')
 
