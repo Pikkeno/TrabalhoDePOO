@@ -5,6 +5,8 @@ from src.utils.logger import logger
 def mostrar_gerenciamento_equipes(page, pessoa, equipe_controller, pessoa_controller, voltar_callback):
     """Tela para gerenciar equipes do usuario."""
     page.clean()
+    page.title = "Gerenciamento de Equipes"
+    page.update()
 
     nome_equipe = ft.TextField(label="Nome da Equipe", width=250)
     id_membro = ft.TextField(label="ID do Membro", width=250)
@@ -115,3 +117,4 @@ def mostrar_gerenciamento_equipes(page, pessoa, equipe_controller, pessoa_contro
     )
 
     page.add(ft.Row([conteudo], alignment=ft.MainAxisAlignment.CENTER))
+    page.update()

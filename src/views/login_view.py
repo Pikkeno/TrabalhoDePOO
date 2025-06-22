@@ -114,3 +114,4 @@ def mostrar_login(
     )
 
     page.add(ft.Row([conteudo], alignment=ft.MainAxisAlignment.CENTER))
+    page.update()
