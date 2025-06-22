@@ -100,7 +100,7 @@ def flet_main(page: ft.Page):
                     limite_participantes,
                     ft.ElevatedButton("Criar Desafio", on_click=criar_desafio),
                     output,
-                    ft.TextButton("Voltar", on_click=lambda e: mostrar_cadastro_pessoa()),
+                    ft.TextButton("Voltar", on_click=lambda e: mostrar_pos_login(pessoa)),
                 ]
             )
         )
