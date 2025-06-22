@@ -5,10 +5,13 @@ class Desafio:
                  limite_participantes: int=2):
         
         try:
-            datetime.strptime(data_inicio, "%d-%m-%Y")
-            datetime.strptime(data_fim, "%d-%m-%Y")
+            inicio_dt = datetime.strptime(data_inicio, "%d-%m-%Y")
+            fim_dt = datetime.strptime(data_fim, "%d-%m-%Y")
         except ValueError as exc:
             raise ValueError("As datas devem estar no formato 'dd-mm-aaaa'.") from exc
+        
+        if inicio_dt.date() < datetime.now().date():
+            raise ValueError("data_inicio não pode ser anterior à data atual")
         
         self.id = id
         self.descricao = descricao
