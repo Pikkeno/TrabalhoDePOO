@@ -1,6 +1,7 @@
 import unittest
 import os
 import sys
+from datetime import datetime, timedelta
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
@@ -27,14 +28,18 @@ class TestPessoaValidations(unittest.TestCase):
 
 class TestDesafioValidations(unittest.TestCase):
     def test_limite_participantes_validation(self):
+        inicio = (datetime.now() + timedelta(days=1)).strftime('%d-%m-%Y')
+        fim = (datetime.now() + timedelta(days=2)).strftime('%d-%m-%Y')
         with self.assertRaises(ValueError):
-            Desafio(1, 't', '01-01-2024', '02-01-2024', 10, limite_participantes=0)
-        d = Desafio(2, 't', '01-01-2024', '02-01-2024', 10)
+            Desafio(1, 't', inicio, fim, 10, limite_participantes=0)
+        d = Desafio(2, 't', inicio, fim, 10)
         with self.assertRaises(ValueError):
             d.limite_participantes = -1
 
     def test_status_validation(self):
-        d = Desafio(3, 't', '01-01-2024', '02-01-2024', 10)
+        inicio = (datetime.now() + timedelta(days=1)).strftime('%d-%m-%Y')
+        fim = (datetime.now() + timedelta(days=2)).strftime('%d-%m-%Y')
+        d = Desafio(3, 't', inicio, fim, 10)
         with self.assertRaises(ValueError):
             d.status = 'Pausado'
 

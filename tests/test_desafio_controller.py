@@ -1,6 +1,7 @@
 import unittest
 import os
 import sys
+from datetime import datetime, timedelta
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
@@ -13,7 +14,9 @@ class TestDesafioController(unittest.TestCase):
         self.controller = DesafioController()
         self.p1 = Pessoa('Alice', '1', 100, 0)
         self.p2 = Pessoa('Bob', '2', 100, 0)
-        self.desafio = self.controller.criar_desafio(1, 'Desafio de Teste', '01-10-2023', '31-10-2023', 50)
+        inicio = (datetime.now() + timedelta(days=1)).strftime('%d-%m-%Y')
+        fim = (datetime.now() + timedelta(days=30)).strftime('%d-%m-%Y')
+        self.desafio = self.controller.criar_desafio(1, 'Desafio de Teste', inicio, fim, 50)
         self.controller.adicionar_participante(self.desafio, self.p1)
         self.controller.adicionar_participante(self.desafio, self.p2)
 

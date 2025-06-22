@@ -1,6 +1,7 @@
 import unittest
 import sys
 import os
+from datetime import datetime, timedelta
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
@@ -29,7 +30,9 @@ class TestEquipeController(unittest.TestCase):
 
     def test_entrar_desafio(self):
         self.controller.adicionar_integrante(self.equipe, self.p2)
-        desafio = Desafio(1, 'Teste', '01-01-2024', '02-01-2024', 10, limite_participantes=3)
+        inicio = (datetime.now() + timedelta(days=1)).strftime('%d-%m-%Y')
+        fim = (datetime.now() + timedelta(days=2)).strftime('%d-%m-%Y')
+        desafio = Desafio(1, 'Teste', inicio, fim, 10, limite_participantes=3)
         self.assertTrue(self.controller.entrar_desafio(self.equipe, desafio))
         self.assertIn(self.p1, desafio.participantes)
         self.assertIn(self.p2, desafio.participantes)

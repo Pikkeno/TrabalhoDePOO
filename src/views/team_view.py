@@ -6,8 +6,8 @@ def mostrar_gerenciamento_equipes(page, pessoa, equipe_controller, pessoa_contro
     """Tela para gerenciar equipes do usuario."""
     page.clean()
 
-    nome_equipe = ft.TextField(label="Nome da Equipe")
-    id_membro = ft.TextField(label="ID do Membro")
+    nome_equipe = ft.TextField(label="Nome da Equipe", width=250)
+    id_membro = ft.TextField(label="ID do Membro", width=250)
     output = ft.Text()
     integrantes_list = ft.ListView(padding=10, spacing=5)
 
@@ -58,7 +58,7 @@ def mostrar_gerenciamento_equipes(page, pessoa, equipe_controller, pessoa_contro
         mostrar_integrantes()
         page.update()
 
-    page.add(
+    conteudo = ft.Container(
         ft.Column(
             [
                 ft.Text("Suas Equipes:"),
@@ -71,18 +71,47 @@ def mostrar_gerenciamento_equipes(page, pessoa, equipe_controller, pessoa_contro
                 ft.Row(
                     [
                         id_membro,
-                        ft.ElevatedButton("Mostrar Integrantes", on_click=mostrar_integrantes),
+                        ft.ElevatedButton(
+                            "Mostrar Integrantes",
+                            on_click=mostrar_integrantes,
+                            style=ft.ButtonStyle(
+                                bgcolor=ft.colors.RED_400,
+                                color=ft.colors.WHITE,
+                            ),
+                        ),
                     ]
                 ),
                 integrantes_list,
                 ft.Row(
                     [
-                        ft.ElevatedButton("Adicionar Membro", on_click=adicionar_membro),
-                        ft.ElevatedButton("Remover Membro", on_click=remover_membro),
+                        ft.ElevatedButton(
+                            "Adicionar Membro",
+                            on_click=adicionar_membro,
+                            style=ft.ButtonStyle(
+                                bgcolor=ft.colors.RED_400,
+                                color=ft.colors.WHITE,
+                            ),
+                        ),
+                        ft.ElevatedButton(
+                            "Remover Membro",
+                            on_click=remover_membro,
+                            style=ft.ButtonStyle(
+                                bgcolor=ft.colors.RED_400,
+                                color=ft.colors.WHITE,
+                            ),
+                        ),
                         ft.TextButton("Voltar", on_click=voltar_callback),
                     ]
                 ),
                 output,
-            ]
-        )
+            ],
+            spacing=12,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+        ),
+        padding=20,
+        border_radius=8,
+        bgcolor=ft.colors.GREY_100,
+        shadow=ft.BoxShadow(blur_radius=8, color=ft.colors.GREY_400),
     )
+
+    page.add(ft.Row([conteudo], alignment=ft.MainAxisAlignment.CENTER))

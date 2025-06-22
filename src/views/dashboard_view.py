@@ -42,11 +42,19 @@ def mostrar_dashboard(page, desafio_controller, voltar_callback):
         ],
     )
 
-    page.add(
+    conteudo = ft.Container(
         ft.Column(
             [
                 ft.Container(tabs, padding=20, bgcolor=ft.Colors.GREY_100),
                 ft.TextButton("Voltar", on_click=voltar_callback),
-            ]
-        )
+            ],
+            spacing=12,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+        ),
+        padding=20,
+        border_radius=8,
+        bgcolor=ft.Colors.GREY_100,
+        shadow=ft.BoxShadow(blur_radius=8, color=ft.Colors.GREY_400),
     )
+
+    page.add(ft.Row([conteudo], alignment=ft.MainAxisAlignment.CENTER))

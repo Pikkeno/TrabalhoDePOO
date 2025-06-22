@@ -15,8 +15,8 @@ def mostrar_pos_login(
 ):
     """Tela inicial após o login com opções sociais."""
     page.clean()
-    nome_equipe = ft.TextField(label="Nome da Equipe")
-    nome_amigo = ft.TextField(label="Nome do Amigo")
+    nome_equipe = ft.TextField(label="Nome da Equipe", width=250)
+    nome_amigo = ft.TextField(label="Nome do Amigo", width=250)
     output = ft.Text()
 
     def criar_equipe(e):
@@ -28,14 +28,32 @@ def mostrar_pos_login(
         output.value = pessoa_controller.adicionar_amigo(pessoa, nome_amigo.value)
         page.update()
 
-    page.add(
+    conteudo = ft.Container(
         ft.Column(
             [
-                ft.Text(f"Bem-vindo, {pessoa.nome}!"),
+                ft.Text(
+                    f"Bem-vindo, {pessoa.nome}!",
+                    size=24,
+                    weight=ft.FontWeight.BOLD,
+                ),
                 nome_equipe,
-                ft.ElevatedButton("Criar Equipe", on_click=criar_equipe),
+                ft.ElevatedButton(
+                    "Criar Equipe",
+                    on_click=criar_equipe,
+                    style=ft.ButtonStyle(
+                        bgcolor=ft.Colors.BLUE_400,
+                        color=ft.Colors.WHITE,
+                    ),
+                ),
                 nome_amigo,
-                ft.ElevatedButton("Adicionar Amigo", on_click=adicionar_amigo),
+                ft.ElevatedButton(
+                    "Adicionar Amigo",
+                    on_click=adicionar_amigo,
+                    style=ft.ButtonStyle(
+                        bgcolor=ft.Colors.GREEN_400,
+                        color=ft.Colors.WHITE,
+                    ),
+                ),
                 ft.ElevatedButton(
                     "Gerenciar Equipes",
                     on_click=lambda e: mostrar_gerenciamento_equipes(
@@ -52,6 +70,10 @@ def mostrar_pos_login(
                             voltar_callback,
 
                         ),
+                        style=ft.ButtonStyle(
+                        bgcolor=ft.Colors.ORANGE_400,
+                        color=ft.Colors.WHITE,
+                    ),
                     ),
                 ),
                 ft.ElevatedButton(
@@ -69,6 +91,10 @@ def mostrar_pos_login(
                             voltar_callback,
                         ),
                     ),
+                    style=ft.ButtonStyle(
+                        bgcolor=ft.Colors.PURPLE_400,
+                        color=ft.Colors.WHITE,
+                    ),
                 ),
                 ft.ElevatedButton(
                     "Ir para Dashboard",
@@ -84,9 +110,21 @@ def mostrar_pos_login(
                             voltar_callback,
                         ),
                     ),
+                    style=ft.ButtonStyle(
+                        bgcolor=ft.Colors.TEAL_400,
+                        color=ft.Colors.WHITE,
+                ),
                 ),
                 output,
                 ft.TextButton("Voltar", on_click=voltar_callback),
-            ]
-        )
+            ],
+            spacing=12,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+        ),
+        padding=20,
+        border_radius=8,
+        bgcolor=ft.Colors.GREY_100,
+        shadow=ft.BoxShadow(blur_radius=8, color=ft.Colors.GREY_400),
     )
+
+    page.add(ft.Row([conteudo], alignment=ft.MainAxisAlignment.CENTER))

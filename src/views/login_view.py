@@ -4,8 +4,8 @@ from src.views.pessoa_view import mostrar_cadastro_pessoa
 from src.views.home_view import mostrar_pos_login
 
 def cria_campo_login():
-    usuario = ft.TextField(label="Email")
-    senha = ft.TextField(label="Senha", password=True)
+    usuario = ft.TextField(label="Email", width=250)
+    senha = ft.TextField(label="Senha", password=True, width=250)
     logger.info("Campos de login criados")
     return usuario, senha
 
@@ -73,6 +73,10 @@ def mostrar_login(
                         equipe_controller,
                         desafio_controller,
                     ),
+                    style=ft.ButtonStyle(
+                        bgcolor=ft.Colors.RED_400,
+                        color=ft.Colors.WHITE,
+                    ),
                 ),
                 ft.TextButton(
                     "Criar conta",
@@ -97,6 +101,16 @@ def mostrar_login(
     if voltar_callback is not None:
         controles.append(ft.TextButton("Voltar", on_click=voltar_callback))
 
-    page.add(ft.Column(controles))
-        
-    
+    conteudo = ft.Container(
+        ft.Column(
+            controles,
+            spacing=12,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+        ),
+        padding=20,
+        border_radius=8,
+        bgcolor=ft.Colors.GREY_100,
+        shadow=ft.BoxShadow(blur_radius=8, color=ft.Colors.GREY_400),
+    )
+
+    page.add(ft.Row([conteudo], alignment=ft.MainAxisAlignment.CENTER))
