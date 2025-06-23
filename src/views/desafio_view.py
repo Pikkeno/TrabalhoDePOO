@@ -11,7 +11,9 @@ def criar_campos_desafio():
     logger.info("Campos de desafio criados")
     return descricao, data_inicio, data_fim, valor_aposta, limite_participantes
 
-def mostrar_cadastro_desafio(page, pessoa, desafio_controller, voltar_callback):
+def mostrar_cadastro_desafio(
+    page, pessoa, desafio_controller, equipe_controller, voltar_callback
+):
     """Exibe a tela de criação de desafio."""
     page.clean()
     (
@@ -21,6 +23,19 @@ def mostrar_cadastro_desafio(page, pessoa, desafio_controller, voltar_callback):
         valor_aposta,
         limite_participantes,
     ) = criar_campos_desafio()
+    competicao_dropdown = ft.Dropdown(
+        label="Tipo de Competição",
+        options=[
+            ft.dropdown.Option("individual"),
+            ft.dropdown.Option("equipe"),
+        ],
+        value="individual",
+        width=250,
+    )
+    adversarios = ft.TextField(
+        label="Adversários (nomes separados por vírgula)", width=250
+    )
+    equipe_adv = ft.TextField(label="Equipe Adversária", width=250)
     output = ft.Text()
 
     def criar_desafio(e):
@@ -32,6 +47,25 @@ def mostrar_cadastro_desafio(page, pessoa, desafio_controller, voltar_callback):
                 data_fim.value,
                 int(valor_aposta.value),
                 int(limite_participantes.value),
+                competicao=competicao_dropdown.value,
+                criador=pessoa,
+                adversarios=[
+                    p
+                    for nome in adversarios.value.split(",")
+                    if (
+                        p := desafio_controller.equipe_controller.pessoa_controller.buscar_por_nome(  # type: ignore
+                            nome.strip()
+                        )
+                    )
+                ],
+                equipe_adversaria=next(
+                    (
+                        eq
+                        for eq in equipe_controller.equipes
+                        if eq.nome == equipe_adv.value
+                    ),
+                    None,
+                ),
             )
         except ValueError as exc:
             output.value = f"Erro ao criar desafio: {exc}"

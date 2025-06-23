@@ -72,7 +72,9 @@ class Desafio:
         
         self.vencedor = vencedor
         self.status = "Encerrado"
-        return True, f"Desafio {self.id} encerrado. O vencedor é {self.vencedor.nome}."
+        return True, (
+            f"Desafio {self.id} encerrado. O vencedor é {self.vencedor.obter_nome()}."
+        )
 
     def recompensa_participantes(self):
         """
@@ -84,6 +86,8 @@ class Desafio:
         if self.vencedor:
             # Recompensa o vencedor com o valor da aposta
             self.vencedor.saldo += self.valor_aposta
-            return True, f"{self.vencedor.nome} recebeu a recompensa de R${self.valor_aposta}."
+            return True, (
+                f"{self.vencedor.obter_nome()} recebeu a recompensa de R${self.valor_aposta}."
+            )
         
         return False, "Não há vencedor para recompensar."

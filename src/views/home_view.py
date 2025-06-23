@@ -89,6 +89,7 @@ def mostrar_pos_login(
                         page,
                         pessoa,
                         desafio_controller,
+                        equipe_controller,
                         lambda e: mostrar_pos_login(
                             page,
                             pessoa,

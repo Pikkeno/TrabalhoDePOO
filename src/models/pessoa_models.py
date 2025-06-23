@@ -1,6 +1,7 @@
 import uuid
+from .competidor_base import Competidor
 
-class Pessoa:
+class Pessoa(Competidor):
     def __init__(self, nome, idm=None, saldo=0, score=0, email=None, senha=None, valor_aposta=None, oponente=None):
         """Cria uma nova pessoa.
 
@@ -73,6 +74,10 @@ class Pessoa:
             f"Pessoa(nome={self.nome}, idm={self.idm}, saldo={self.saldo}, "
             f"score={self.score}, email={self.email})"
         )
+    
+    def obter_nome(self) -> str:
+        """Retorna o nome desta pessoa."""
+        return self.nome
     
     def adicionar_amigo(self, amigo):
         """Adiciona uma pessoa à lista de amigos se ainda não estiver presente."""

@@ -1,10 +1,17 @@
-class Equipe:
+from .competidor_base import Competidor
+
+
+class Equipe(Competidor):
     """Representa um grupo de pessoas."""
 
     def __init__(self, nome, criador):
         self.nome = nome
         self.criador = criador
         self.integrantes = [criador]
+
+    def obter_nome(self) -> str:
+        """Retorna o nome da equipe."""
+        return self.nome
 
     def adicionar_integrante(self, pessoa):
         if pessoa not in self.integrantes:
