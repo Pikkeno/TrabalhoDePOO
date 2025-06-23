@@ -3,6 +3,7 @@ class Equipe:
 
     def __init__(self, nome, criador):
         self.nome = nome
+        self.criador = criador
         self.integrantes = [criador]
 
     def adicionar_integrante(self, pessoa):

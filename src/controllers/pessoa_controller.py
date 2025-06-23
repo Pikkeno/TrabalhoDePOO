@@ -2,12 +2,22 @@ from src.models.pessoa_models import Pessoa
 from src.utils.logger import logger
 from src.utils import json_db
 import uuid
+import re
 
 class PessoaController:
     def __init__(self):
         self.pessoas = []  # Lista de pessoas registradas
         self.carregar_pessoas()
         logger.info("PessoaController iniciado")
+
+    @staticmethod
+    def validar_email(email: str | None):
+        """Valida o formato do email."""
+        if email is None:
+            return
+        padrao = r"^[^@\s]+@[^@\s]+\.[^@\s]+$"
+        if not re.match(padrao, email):
+            raise ValueError("Email inválido")
 
     def carregar_pessoas(self):
         """Carrega os dados de pessoas do arquivo JSON."""
@@ -38,6 +48,7 @@ class PessoaController:
         json_db.salvar_dados(dados)
 
     def criar_pessoa(self, nome, idm=None, email=None, senha=None):
+        self.validar_email(email)
         if idm is None:
             # Gera um IDM único e aleatório
             while True:
@@ -54,6 +65,7 @@ class PessoaController:
         return pessoa
     
     def registrar_pessoa(self, nome, idm, email, senha):
+        self.validar_email(email)
         """Registra uma pessoa garantindo unicidade de IDM ou email."""
         if self.buscar_por_id(idm) or any(p.email == email for p in self.pessoas):
             logger.warning("Tentativa de cadastro duplicado: %s", idm)

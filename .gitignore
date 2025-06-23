@@ -3,4 +3,5 @@ __pycache__/
 .pytest_cache/
 
 pessoas.json
+equipes.json
 *.json

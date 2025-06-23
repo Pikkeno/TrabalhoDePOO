@@ -47,6 +47,15 @@ class TestRegistroDuplicado(BasePessoaControllerTest):
             "outra",
         )
         self.assertIsNone(novo)
+    
+    def test_registrar_email_invalido(self):
+        with self.assertRaises(ValueError):
+            self.controller.registrar_pessoa(
+                "Eve",
+                "3",
+                "email_invalido",
+                "senha123",
+            )
 
     def test_registrar_email_existente(self):
         novo = self.controller.registrar_pessoa(

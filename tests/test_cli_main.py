@@ -25,6 +25,18 @@ class TestCliMainInvalidDate(unittest.TestCase):
                 main.cli_main()
         saida = "\n".join(str(c.args[0]) for c in mock_print.call_args_list)
         self.assertIn('Erro ao criar desafio', saida)
+class TestCliMainInvalidEmail(unittest.TestCase):
+    def test_email_invalido(self):
+        entradas = [
+            'Alice',            # nome
+            'email_invalido',   # email invalido
+            'senha123',         # senha
+        ]
+        with mock.patch('builtins.input', side_effect=entradas + ['']*5):
+            with mock.patch('builtins.print') as mock_print:
+                main.cli_main()
+        saida = "\n".join(str(c.args[0]) for c in mock_print.call_args_list)
+        self.assertIn('Erro ao criar pessoa', saida)
 
 if __name__ == '__main__':
     unittest.main()

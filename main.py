@@ -12,7 +12,11 @@ def cli_main():    # Inicializa os controladores
     email = input("Digite seu email: ")
     senha = input("Digite sua senha: ")
     # Cria uma nova pessoa com IDM aleatório
-    pessoa = pessoa_controller.criar_pessoa(nome, email=email, senha=senha)
+    try:
+        pessoa = pessoa_controller.criar_pessoa(nome, email=email, senha=senha)
+    except ValueError as exc:
+        print(f"Erro ao criar pessoa: {exc}")
+        return
     print(f"Pessoa criada: {pessoa}")
  
     # Cria um desafio
