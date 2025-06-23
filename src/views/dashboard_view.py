@@ -16,7 +16,13 @@ def listar_desafios_por_status(desafio_controller, status: str):
 from src.views.evento_view import mostrar_cadastro_desafio_evento
 
 
-def listar_eventos(evento_controller, desafio_controller, page, voltar_callback):
+def listar_eventos(
+    evento_controller,
+    desafio_controller,
+    page,
+    voltar_callback,
+    dashboard_callback,
+):
     """Retorna controles para listar eventos."""
     if not evento_controller.eventos:
         return [ft.ListTile(title=ft.Text("Nenhum evento."))]
@@ -41,6 +47,7 @@ def listar_eventos(evento_controller, desafio_controller, page, voltar_callback)
                             evento_controller,
                             voltar_callback,
                         ),
+                        dashboard_callback,
                     ),
                 ),
             )
@@ -69,7 +76,13 @@ def mostrar_dashboard(page, desafio_controller, evento_controller, voltar_callba
     )
 
     eventos_lista = ft.ListView(
-        controls=listar_eventos(evento_controller, desafio_controller, page, voltar_callback),
+        controls=listar_eventos(
+            evento_controller,
+            desafio_controller,
+            page,
+            voltar_callback,
+            voltar_callback,
+        ),
         padding=10,
         spacing=10,
     )
@@ -87,6 +100,10 @@ def mostrar_dashboard(page, desafio_controller, evento_controller, voltar_callba
     page.add(
         ft.Column(
             [
+                ft.Row(
+                    [ft.IconButton(ft.Icons.ARROW_BACK, on_click=voltar_callback)],
+                    alignment=ft.MainAxisAlignment.START,
+                ),
                 ft.Container(tabs, padding=20, bgcolor=ft.Colors.GREY_100),
                 ft.TextButton("Voltar", on_click=voltar_callback),
             ]

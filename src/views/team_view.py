@@ -2,7 +2,14 @@ import flet as ft
 from src.utils.logger import logger
 
 
-def mostrar_gerenciamento_equipes(page, pessoa, equipe_controller, pessoa_controller, voltar_callback):
+def mostrar_gerenciamento_equipes(
+    page,
+    pessoa,
+    equipe_controller,
+    pessoa_controller,
+    voltar_callback,
+    dashboard_callback=None,
+):
     """Tela para gerenciar equipes do usuario."""
     page.clean()
     page.title = "Gerenciamento de Equipes"
@@ -64,53 +71,60 @@ def mostrar_gerenciamento_equipes(page, pessoa, equipe_controller, pessoa_contro
         mostrar_integrantes()
         page.update()
 
+    controles = [
+        ft.Text("Suas Equipes:"),
+        ft.ListView(
+            controls=[ft.ListTile(title=ft.Text(eq.nome)) for eq in listar_equipes_usuario()],
+            padding=10,
+            spacing=5,
+        ),
+        nome_equipe,
+        ft.Row(
+            [
+                nome_usuario_membro,
+                ft.ElevatedButton(
+                    "Mostrar Integrantes",
+                    on_click=mostrar_integrantes,
+                    style=ft.ButtonStyle(
+                        bgcolor=ft.Colors.RED_400,
+                        color=ft.Colors.WHITE,
+                    ),
+                ),
+            ]
+        ),
+        integrantes_list,
+        ft.Row(
+            [
+                ft.ElevatedButton(
+                    "Adicionar Membro",
+                    on_click=adicionar_membro,
+                    style=ft.ButtonStyle(
+                        bgcolor=ft.Colors.RED_400,
+                        color=ft.Colors.WHITE,
+                    ),
+                ),
+                ft.ElevatedButton(
+                    "Remover Membro",
+                    on_click=remover_membro,
+                    style=ft.ButtonStyle(
+                        bgcolor=ft.Colors.RED_400,
+                        color=ft.Colors.WHITE,
+                    ),
+                ),
+                ft.TextButton("Voltar", on_click=voltar_callback),
+            ]
+        ),
+        output,
+    ]
+
+    if dashboard_callback:
+        controles.append(
+            ft.TextButton("Voltar ao Dashboard", on_click=dashboard_callback)
+        )
+
     conteudo = ft.Container(
         ft.Column(
-            [
-                ft.Text("Suas Equipes:"),
-                ft.ListView(
-                    controls=[ft.ListTile(title=ft.Text(eq.nome)) for eq in listar_equipes_usuario()],
-                    padding=10,
-                    spacing=5,
-                ),
-                nome_equipe,
-                ft.Row(
-                    [
-                        nome_usuario_membro,
-                        ft.ElevatedButton(
-                            "Mostrar Integrantes",
-                            on_click=mostrar_integrantes,
-                            style=ft.ButtonStyle(
-                                bgcolor=ft.Colors.RED_400,
-                                color=ft.Colors.WHITE,
-                            ),
-                        ),
-                    ]
-                ),
-                integrantes_list,
-                ft.Row(
-                    [
-                        ft.ElevatedButton(
-                            "Adicionar Membro",
-                            on_click=adicionar_membro,
-                            style=ft.ButtonStyle(
-                                bgcolor=ft.Colors.RED_400,
-                                color=ft.Colors.WHITE,
-                            ),
-                        ),
-                        ft.ElevatedButton(
-                            "Remover Membro",
-                            on_click=remover_membro,
-                            style=ft.ButtonStyle(
-                                bgcolor=ft.Colors.RED_400,
-                                color=ft.Colors.WHITE,
-                            ),
-                        ),
-                        ft.TextButton("Voltar", on_click=voltar_callback),
-                    ]
-                ),
-                output,
-            ],
+            controles,
             spacing=12,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             scroll=ft.ScrollMode.ADAPTIVE,

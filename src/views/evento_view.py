@@ -2,7 +2,15 @@ import flet as ft
 from src.utils.logger import logger
 from src.views.desafio_view import criar_campos_desafio
 
-def mostrar_cadastro_evento(page, pessoa, pessoa_controller, equipe_controller, evento_controller, voltar_callback):
+def mostrar_cadastro_evento(
+    page,
+    pessoa,
+    pessoa_controller,
+    equipe_controller,
+    evento_controller,
+    voltar_callback,
+    dashboard_callback=None,
+):
     page.clean()
     tipo = ft.Dropdown(label="Tipo", options=[ft.dropdown.Option("individual"), ft.dropdown.Option("equipe")], value="individual", width=250)
     nome_oponente = ft.TextField(label="Oponente", width=250)
@@ -25,18 +33,29 @@ def mostrar_cadastro_evento(page, pessoa, pessoa_controller, equipe_controller, 
         page.update()
         logger.info("Evento competitivo criado")
 
+    controles = [
+        tipo,
+        nome_oponente,
+        ft.ElevatedButton(
+            "Criar Evento",
+            on_click=criar_evento,
+            style=ft.ButtonStyle(bgcolor=ft.Colors.RED_400, color=ft.Colors.WHITE),
+        ),
+        output,
+        ft.TextButton("Voltar", on_click=voltar_callback),
+    ]
+
+    if dashboard_callback:
+        controles.append(
+            ft.TextButton("Voltar ao Dashboard", on_click=dashboard_callback)
+        )
+
     conteudo = ft.Container(
-        ft.Column([
-            tipo,
-            nome_oponente,
-            ft.ElevatedButton(
-                "Criar Evento",
-                on_click=criar_evento,
-                style=ft.ButtonStyle(bgcolor=ft.Colors.RED_400, color=ft.Colors.WHITE),
-            ),
-            output,
-            ft.TextButton("Voltar", on_click=voltar_callback),
-        ], spacing=12, horizontal_alignment=ft.CrossAxisAlignment.CENTER),
+        ft.Column(
+            controles,
+            spacing=12,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+        ),
         padding=20,
         border_radius=8,
         bgcolor=ft.Colors.GREY_100,
@@ -45,7 +64,7 @@ def mostrar_cadastro_evento(page, pessoa, pessoa_controller, equipe_controller, 
     page.add(ft.Row([conteudo], alignment=ft.MainAxisAlignment.CENTER))
 
 
-def mostrar_eventos(page, evento_controller, voltar_callback):
+def mostrar_eventos(page, evento_controller, voltar_callback, dashboard_callback=None):
     """Exibe os eventos existentes com opcao de adicionar desafios."""
     page.clean()
 
@@ -54,7 +73,13 @@ def mostrar_eventos(page, evento_controller, voltar_callback):
             page,
             evento,
             evento_controller,
-            lambda e: mostrar_eventos(page, evento_controller, voltar_callback),
+            lambda e: mostrar_eventos(
+                page,
+                evento_controller,
+                voltar_callback,
+                dashboard_callback,
+            ),
+            dashboard_callback,
         )
 
     lista_eventos = []
@@ -69,17 +94,26 @@ def mostrar_eventos(page, evento_controller, voltar_callback):
                 ft.ListTile(title=ft.Text(titulo), subtitle=subtitulo, trailing=botao)
             )
 
-    page.add(
-        ft.Column(
-            [
-                ft.ListView(controls=lista_eventos, padding=10, spacing=10),
-                ft.TextButton("Voltar", on_click=voltar_callback),
-            ]
+    controles = [
+        ft.ListView(controls=lista_eventos, padding=10, spacing=10),
+        ft.TextButton("Voltar", on_click=voltar_callback),
+    ]
+
+    if dashboard_callback:
+        controles.append(
+            ft.TextButton("Voltar ao Dashboard", on_click=dashboard_callback)
         )
-    )
+
+    page.add(ft.Column(controles))
 
 
-def mostrar_cadastro_desafio_evento(page, evento, evento_controller, voltar_callback):
+def mostrar_cadastro_desafio_evento(
+    page,
+    evento,
+    evento_controller,
+    voltar_callback,
+    dashboard_callback=None,
+):
     """Mostra formulario para criar desafio dentro de um evento."""
     page.clean()
 
@@ -107,22 +141,29 @@ def mostrar_cadastro_desafio_evento(page, evento, evento_controller, voltar_call
             output.value = str(exc)
         page.update()
 
+    controles = [
+        descricao,
+        data_inicio,
+        data_fim,
+        valor_aposta,
+        limite_participantes,
+        ft.ElevatedButton(
+            "Criar Desafio",
+            on_click=criar,
+            style=ft.ButtonStyle(bgcolor=ft.Colors.RED_400, color=ft.Colors.WHITE),
+        ),
+        output,
+        ft.TextButton("Voltar", on_click=voltar_callback),
+    ]
+
+    if dashboard_callback:
+        controles.append(
+            ft.TextButton("Voltar ao Dashboard", on_click=dashboard_callback)
+        )
+
     page.add(
         ft.Column(
-            [
-                descricao,
-                data_inicio,
-                data_fim,
-                valor_aposta,
-                limite_participantes,
-                ft.ElevatedButton(
-                    "Criar Desafio",
-                    on_click=criar,
-                    style=ft.ButtonStyle(bgcolor=ft.Colors.RED_400, color=ft.Colors.WHITE),
-                ),
-                output,
-                ft.TextButton("Voltar", on_click=voltar_callback),
-            ],
+            controles,
             spacing=12,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         )

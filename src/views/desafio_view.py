@@ -12,7 +12,12 @@ def criar_campos_desafio():
     return descricao, data_inicio, data_fim, valor_aposta, limite_participantes
 
 def mostrar_cadastro_desafio(
-    page, pessoa, desafio_controller, equipe_controller, voltar_callback
+    page,
+    pessoa,
+    desafio_controller,
+    equipe_controller,
+    voltar_callback,
+    dashboard_callback=None,
 ):
     """Exibe a tela de criação de desafio."""
     page.clean()
@@ -77,25 +82,32 @@ def mostrar_cadastro_desafio(
         page.update()
         logger.info("Desafio criado via Flet: %s", descricao.value)
 
+    controles = [
+        descricao,
+        data_inicio,
+        data_fim,
+        valor_aposta,
+        limite_participantes,
+        ft.ElevatedButton(
+            "Criar Desafio",
+            on_click=criar_desafio,
+            style=ft.ButtonStyle(
+                bgcolor=ft.Colors.RED_400,
+                color=ft.Colors.WHITE,
+            ),
+        ),
+        output,
+        ft.TextButton("Voltar", on_click=voltar_callback),
+    ]
+
+    if dashboard_callback:
+        controles.append(
+            ft.TextButton("Voltar ao Dashboard", on_click=dashboard_callback)
+        )
+
     conteudo = ft.Container(
         ft.Column(
-            [
-                descricao,
-                data_inicio,
-                data_fim,
-                valor_aposta,
-                limite_participantes,
-                ft.ElevatedButton(
-                    "Criar Desafio",
-                    on_click=criar_desafio,
-                    style=ft.ButtonStyle(
-                        bgcolor=ft.Colors.RED_400,
-                        color=ft.Colors.WHITE,
-                    ),
-                ),
-                output,
-                ft.TextButton("Voltar", on_click=voltar_callback),
-            ],
+            controles,
             spacing=12,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         ),

@@ -17,6 +17,20 @@ def mostrar_pos_login(
 ):
     """Tela inicial após o login com opções sociais."""
     page.clean()
+    dashboard_callback = lambda e: mostrar_dashboard(
+        page,
+        desafio_controller,
+        evento_controller,
+        lambda e: mostrar_pos_login(
+            page,
+            pessoa,
+            pessoa_controller,
+            equipe_controller,
+            evento_controller,
+            desafio_controller,
+            voltar_callback,
+        ),
+    )
     nome_equipe = ft.TextField(label="Nome da Equipe", width=250)
     nome_usuario_amigo = ft.TextField(label="Nome de Usuário do Amigo", width=250)
     output = ft.Text()
@@ -80,7 +94,8 @@ def mostrar_pos_login(
                             voltar_callback,
 
                         ),
-                        ),
+                        dashboard_callback,
+                    ),
                     style=ft.ButtonStyle(
                         bgcolor=ft.Colors.RED_400,
                         color=ft.Colors.WHITE,
@@ -102,6 +117,7 @@ def mostrar_pos_login(
                             desafio_controller,
                             voltar_callback,
                         ),
+                        dashboard_callback,
                     ),
                     style=ft.ButtonStyle(
                         bgcolor=ft.Colors.RED_400,
@@ -125,6 +141,7 @@ def mostrar_pos_login(
                             desafio_controller,
                             voltar_callback,
                         ),
+                        dashboard_callback,
                     ),
                     style=ft.ButtonStyle(bgcolor=ft.Colors.RED_400, color=ft.Colors.WHITE),
                 ),
