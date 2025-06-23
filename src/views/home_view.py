@@ -36,12 +36,19 @@ def mostrar_pos_login(
                     size=24,
                     weight=ft.FontWeight.BOLD,
                 ),
+                ft.Row(
+                    [
+                        ft.Text(f"Saldo: {pessoa.saldo}"),
+                        ft.Text(f"Score: {pessoa.score}"),
+                    ],
+                    alignment=ft.MainAxisAlignment.CENTER,
+                ),
                 nome_equipe,
                 ft.ElevatedButton(
                     "Criar Equipe",
                     on_click=criar_equipe,
                     style=ft.ButtonStyle(
-                        bgcolor=ft.Colors.BLUE_400,
+                        bgcolor=ft.Colors.RED_400,
                         color=ft.Colors.WHITE,
                     ),
                 ),
@@ -50,7 +57,7 @@ def mostrar_pos_login(
                     "Adicionar Amigo",
                     on_click=adicionar_amigo,
                     style=ft.ButtonStyle(
-                        bgcolor=ft.Colors.GREEN_400,
+                        bgcolor=ft.Colors.RED_400,
                         color=ft.Colors.WHITE,
                     ),
                 ),
@@ -72,7 +79,7 @@ def mostrar_pos_login(
                         ),
                         ),
                     style=ft.ButtonStyle(
-                        bgcolor=ft.Colors.ORANGE_400,
+                        bgcolor=ft.Colors.RED_400,
                         color=ft.Colors.WHITE,
                     ),
                 ),
@@ -92,7 +99,7 @@ def mostrar_pos_login(
                         ),
                     ),
                     style=ft.ButtonStyle(
-                        bgcolor=ft.Colors.PURPLE_400,
+                        bgcolor=ft.Colors.RED_400,
                         color=ft.Colors.WHITE,
                     ),
                 ),
@@ -111,7 +118,7 @@ def mostrar_pos_login(
                         ),
                     ),
                     style=ft.ButtonStyle(
-                        bgcolor=ft.Colors.TEAL_400,
+                        bgcolor=ft.Colors.RED_400,
                         color=ft.Colors.WHITE,
                 ),
                 ),

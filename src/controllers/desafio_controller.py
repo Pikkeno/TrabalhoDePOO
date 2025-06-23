@@ -5,15 +5,51 @@ from src.utils.logger import logger
 class DesafioController:
             
 
-    def __init__(self):
+    def __init__(self, equipe_controller=None):
         self.desafios = []  # Lista de desafios ativos no sistema
+        self.equipe_controller = equipe_controller
         logger.info("DesafioController iniciado")
 
-    def criar_desafio(self, id, descricao, data_inicio, data_fim, valor_aposta,
-                      limite_participantes: int = 2):
+    def criar_desafio(
+        self,
+        id,
+        descricao,
+        data_inicio,
+        data_fim,
+        valor_aposta,
+        limite_participantes: int = 2,
+        competicao: str | None = None,
+        criador=None,
+        adversarios=None,
+        equipe_adversaria=None,
+    ):
         """
         Cria um novo desafio e adiciona à lista de desafios.
         """
+        if competicao == "individual":
+            if not adversarios or len(adversarios) == 0:
+                raise ValueError(
+                    "Desafio individual requer ao menos um adversário convidado."
+                )
+        elif competicao == "equipe":
+            if criador is None:
+                raise ValueError("É necessário informar o criador do desafio.")
+            if self.equipe_controller is None:
+                raise ValueError(
+                    "Um controlador de equipes é necessário para desafios em equipe."
+                )
+            equipe_usuario = None
+            for equipe in self.equipe_controller.equipes:
+                if criador in equipe.integrantes:
+                    equipe_usuario = equipe
+                    break
+            if equipe_usuario is None:
+                raise ValueError(
+                    "Usuário precisa estar vinculado a uma equipe para criar desafio em equipe."
+                )
+            if equipe_adversaria is None:
+                raise ValueError("Selecione uma equipe adversária para o desafio.")
+            
         desafio = Desafio(id, descricao, data_inicio, data_fim, valor_aposta,
                           limite_participantes)
         self.desafios.append(desafio)

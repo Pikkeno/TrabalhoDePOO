@@ -1,10 +1,21 @@
 from src.models.equipe_models import Equipe
 from src.utils import equipe_db
 from src.utils.logger import logger
+from src.controllers.pessoa_controller import PessoaController
 
 
 class EquipeController:
+    _default_pessoa_controller = None
+    
     def __init__(self, pessoa_controller=None):
+        if pessoa_controller is None:
+            if EquipeController._default_pessoa_controller is None:
+                pessoa_controller = PessoaController()
+            else:
+                pessoa_controller = EquipeController._default_pessoa_controller
+        else:
+            EquipeController._default_pessoa_controller = pessoa_controller
+
         self.equipes = []
         self.pessoa_controller = pessoa_controller
         self.carregar_equipes()
@@ -69,6 +80,16 @@ class EquipeController:
             return True
         logger.info("%s não encontrado na equipe %s", pessoa.nome, equipe.nome)
         return False
+    
+    def remover_integrante_por_nome(self, equipe, nome_usuario: str):
+        """Remove um integrante procurando pelo nome de usuário."""
+        if self.pessoa_controller is None:
+            return False
+        pessoa = self.pessoa_controller.buscar_por_nome(nome_usuario)
+        if not pessoa:
+            logger.info("Usuário %s não encontrado", nome_usuario)
+            return False
+        return self.remover_integrante(equipe, pessoa)
 
     def entrar_desafio(self, equipe, desafio):
         """Faz a equipe inteira participar de um desafio."""
