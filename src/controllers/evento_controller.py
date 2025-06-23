@@ -1,24 +1,33 @@
 from __future__ import annotations
 from typing import List
 
+from src.controllers.pessoa_controller import PessoaController
 from src.models.evento_competitivo_models import EventoCompetitivo
 from src.models.competidor_base import Competidor
 from src.models.desafio_models import Desafio
 from src.controllers.desafio_controller import DesafioController
+from src.models.pessoa_models import Pessoa
 from src.utils import evento_db
 
 class EventoController:
     """Gerencia eventos competitivos entre competidores."""
 
-    def __init__(self, desafio_controller: DesafioController | None = None):
+    def __init__(
+        self,
+        desafio_controller: DesafioController | None = None,
+        pessoa_controller: PessoaController | None = None,
+    ):
         self.eventos: List[EventoCompetitivo] = []
         self.desafio_controller = desafio_controller or DesafioController()
-        self.salvar_eventos()
+        self.pessoa_controller = pessoa_controller
+        self.carregar_eventos()
+
 
     def criar_evento(self, criador: Competidor, convidado: Competidor) -> EventoCompetitivo:
         evento = EventoCompetitivo(criador, convidado)
         self.eventos.append(evento)
-        self.salvar_eventos()
+        self.pessoa_controller
+        self.carregar_eventos()
         return evento
 
     def aceitar_evento(self, evento: EventoCompetitivo, usuario: Competidor):
@@ -82,3 +91,37 @@ class EventoController:
                 }
             )
         evento_db.salvar_dados(dados)
+
+    def carregar_eventos(self):
+        for dado in evento_db.carregar_dados():
+            criador = self._resolver_competidor(dado.get("criador"))
+            convidado = self._resolver_competidor(dado.get("convidado"))
+            evento = EventoCompetitivo(
+                criador,
+                convidado,
+                evento_id=dado.get("evento_id"),
+            )
+            if dado.get("aceito"):
+                evento.aceitar_convite()
+            for d in dado.get("desafios", []):
+                desafio = Desafio(
+                    d.get("id"),
+                    d.get("descricao"),
+                    d.get("data_inicio"),
+                    d.get("data_fim"),
+                    d.get("valor_aposta"),
+                    d.get("limite_participantes", 2),
+                )
+                desafio.status = d.get("status", "Ativo")
+                evento.desafios.append(desafio)
+            for competidor_id, valor in dado.get("apostas", {}).items():
+                competidor = self._resolver_competidor(competidor_id)
+                evento.apostas[competidor] = valor
+            self.eventos.append(evento)
+
+    def _resolver_competidor(self, identificador):
+        if self.pessoa_controller:
+            pessoa = self.pessoa_controller.buscar_por_id(identificador) or self.pessoa_controller.buscar_por_nome(identificador)
+            if pessoa:
+                return pessoa
+        return Pessoa(identificador, identificador)
