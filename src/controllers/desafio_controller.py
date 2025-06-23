@@ -181,10 +181,3 @@ class DesafioController:
                 }
             )
         desafio_db.salvar_dados(dados)
-
-    def concluir_desafio(self, desafio):
-        """Marca o desafio como encerrado sem definir vencedor."""
-        desafio.status = "Encerrado"
-        self.salvar_desafios()
-        logger.info("Desafio %s concluido", desafio.id)
-        return f"Desafio {desafio.id} concluído."

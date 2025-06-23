@@ -1,0 +1,18 @@
+[
+    {
+        "nome": "luiz",
+        "idm": "4e1e88ba037a42df82cbf9786c7c51cc",
+        "saldo": 0,
+        "score": 0,
+        "email": "admin@gmail.com",
+        "senha": "admin"
+    },
+    {
+        "nome": "luisa",
+        "idm": "1709c386c9634f96ba47ae289b09e72d",
+        "saldo": 0,
+        "score": 0,
+        "email": "luisa@gmail.com",
+        "senha": "123"
+    }
+]
