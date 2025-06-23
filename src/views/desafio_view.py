@@ -18,6 +18,8 @@ def mostrar_cadastro_desafio(
     equipe_controller,
     voltar_callback,
     dashboard_callback=None,
+    *,
+    individual_only: bool = False,
 ):
     """Exibe a tela de criação de desafio."""
     page.clean()
@@ -45,6 +47,7 @@ def mostrar_cadastro_desafio(
 
     def criar_desafio(e):
         try:
+            competicao = "individual" if individual_only else competicao_dropdown.value
             desafio = desafio_controller.criar_desafio(
                 1,
                 descricao.value,
@@ -52,7 +55,7 @@ def mostrar_cadastro_desafio(
                 data_fim.value,
                 int(valor_aposta.value),
                 int(limite_participantes.value),
-                competicao=competicao_dropdown.value,
+                competicao=competicao,
                 criador=pessoa,
                 adversarios=[
                     p
@@ -63,7 +66,9 @@ def mostrar_cadastro_desafio(
                         )
                     )
                 ],
-                equipe_adversaria=next(
+                equipe_adversaria=None
+                if individual_only
+                else next(
                     (
                         eq
                         for eq in equipe_controller.equipes
@@ -88,17 +93,27 @@ def mostrar_cadastro_desafio(
         data_fim,
         valor_aposta,
         limite_participantes,
-        ft.ElevatedButton(
-            "Criar Desafio",
-            on_click=criar_desafio,
-            style=ft.ButtonStyle(
-                bgcolor=ft.Colors.RED_400,
-                color=ft.Colors.WHITE,
-            ),
-        ),
-        output,
-        ft.TextButton("Voltar", on_click=voltar_callback),
     ]
+
+    if not individual_only:
+        controles.extend([competicao_dropdown, adversarios, equipe_adv])
+    else:
+        controles.append(adversarios)
+
+    controles.extend(
+        [
+            ft.ElevatedButton(
+                "Criar Desafio",
+                on_click=criar_desafio,
+                style=ft.ButtonStyle(
+                    bgcolor=ft.Colors.RED_400,
+                    color=ft.Colors.WHITE,
+                ),
+            ),
+            output,
+            ft.TextButton("Voltar", on_click=voltar_callback),
+        ]
+    )
 
     if dashboard_callback:
         controles.append(

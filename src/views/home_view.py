@@ -130,6 +130,7 @@ def mostrar_pos_login(
                             voltar_callback,
                         ),
                         dashboard_callback,
+                        individual_only=True,
                     ),
                     style=ft.ButtonStyle(
                         bgcolor=ft.Colors.RED_400,
