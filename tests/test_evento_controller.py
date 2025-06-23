@@ -39,7 +39,13 @@ class TestEventoControllerAceitarPersistencia(unittest.TestCase):
         with open(evento_db.DB_PATH, "r", encoding="utf-8") as f:
             data = json.load(f)
         self.assertEqual(len(data), 1)
-        self.assertTrue(data[0]["aceito"]) 
+        self.assertTrue(data[0]["aceito"])
+
+    def test_recusar_evento_remove(self):
+        evento = self.controller.criar_evento(self.p1, self.p2)
+        self.assertIn(evento, self.controller.eventos)
+        self.controller.recusar_evento(evento, self.p2)
+        self.assertNotIn(evento, self.controller.eventos) 
 
 if __name__ == "__main__":
     unittest.main()

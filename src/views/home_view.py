@@ -19,6 +19,7 @@ def mostrar_pos_login(
     page.clean()
     dashboard_callback = lambda e: mostrar_dashboard(
         page,
+        pessoa,
         desafio_controller,
         evento_controller,
         lambda e: mostrar_pos_login(
@@ -161,6 +162,7 @@ def mostrar_pos_login(
                     "Ir para Dashboard",
                     on_click=lambda e: mostrar_dashboard(
                         page,
+                        pessoa,
                         desafio_controller,
                         evento_controller,
                         lambda e: mostrar_pos_login(

@@ -29,6 +29,14 @@ class EventoController:
         self.pessoa_controller
         self.carregar_eventos()
         return evento
+    
+    def recusar_evento(self, evento: EventoCompetitivo, usuario: Competidor):
+        """Remove o evento caso o convidado recuse o convite."""
+        if evento.convidado != usuario:
+            raise ValueError("Apenas o convidado pode recusar o evento")
+        if evento in self.eventos:
+            self.eventos.remove(evento)
+            self.salvar_eventos()
 
     def aceitar_evento(self, evento: EventoCompetitivo, usuario: Competidor):
         if evento.convidado != usuario:
