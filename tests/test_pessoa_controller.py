@@ -66,6 +66,21 @@ class TestRegistroDuplicado(BasePessoaControllerTest):
         )
         self.assertIsNone(novo)
 
+class TestAdicionarAmigo(BasePessoaControllerTest):
+    def test_adicionar_amigo_por_nome(self):
+        amigo = self.controller.registrar_pessoa(
+            "Bob",
+            "2",
+            "bob@example.com",
+            "senha456",
+        )
+        mensagem = self.controller.adicionar_amigo(self.usuario, "Bob")
+        self.assertIn("adicionado como amigo", mensagem)
+        self.assertIn(amigo, self.usuario.amigos)
+
+    def test_adicionar_amigo_nao_encontrado(self):
+        mensagem = self.controller.adicionar_amigo(self.usuario, "Inexistente")
+        self.assertIn("não encontrado", mensagem)
 
 if __name__ == "__main__":
     unittest.main()

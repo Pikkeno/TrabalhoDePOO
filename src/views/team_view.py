@@ -9,7 +9,7 @@ def mostrar_gerenciamento_equipes(page, pessoa, equipe_controller, pessoa_contro
     page.update()
 
     nome_equipe = ft.TextField(label="Nome da Equipe", width=250)
-    id_membro = ft.TextField(label="ID do Membro", width=250)
+    nome_usuario_membro = ft.TextField(label="Nome de Usuário do Membro", width=250)
     output = ft.Text()
     integrantes_list = ft.ListView(padding=10, spacing=5)
 
@@ -33,14 +33,16 @@ def mostrar_gerenciamento_equipes(page, pessoa, equipe_controller, pessoa_contro
         if not equipe:
             output.value = "Equipe nao encontrada."
         else:
-            membro = pessoa_controller.buscar_por_id(id_membro.value)
-            if membro is None:
-                output.value = "Membro nao encontrado."
+            if equipe_controller.adicionar_integrante_por_nome(
+                equipe, nome_usuario_membro.value
+            ):
+                output.value = (
+                    f"{nome_usuario_membro.value} adicionado a {equipe.nome}."
+                )
             else:
-                if equipe_controller.adicionar_integrante(equipe, membro):
-                    output.value = f"{membro.nome} adicionado a {equipe.nome}."
-                else:
-                    output.value = f"{membro.nome} ja esta na equipe."
+                output.value = (
+                    f"{nome_usuario_membro.value} nao encontrado ou ja esta na equipe."
+                )
         mostrar_integrantes()
         page.update()
 
@@ -49,14 +51,16 @@ def mostrar_gerenciamento_equipes(page, pessoa, equipe_controller, pessoa_contro
         if not equipe:
             output.value = "Equipe nao encontrada."
         else:
-            membro = pessoa_controller.buscar_por_id(id_membro.value)
-            if membro is None:
-                output.value = "Membro nao encontrado."
+            if equipe_controller.remover_integrante_por_nome(
+                equipe, nome_usuario_membro.value
+            ):
+                output.value = (
+                    f"{nome_usuario_membro.value} removido de {equipe.nome}."
+                )
             else:
-                if equipe_controller.remover_integrante(equipe, membro):
-                    output.value = f"{membro.nome} removido de {equipe.nome}."
-                else:
-                    output.value = f"{membro.nome} nao esta na equipe."
+                output.value = (
+                    f"{nome_usuario_membro.value} nao esta na equipe ou nao foi encontrado."
+                )
         mostrar_integrantes()
         page.update()
 
@@ -72,7 +76,7 @@ def mostrar_gerenciamento_equipes(page, pessoa, equipe_controller, pessoa_contro
                 nome_equipe,
                 ft.Row(
                     [
-                        id_membro,
+                        nome_usuario_membro,
                         ft.ElevatedButton(
                             "Mostrar Integrantes",
                             on_click=mostrar_integrantes,
@@ -109,7 +113,9 @@ def mostrar_gerenciamento_equipes(page, pessoa, equipe_controller, pessoa_contro
             ],
             spacing=12,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            scroll=ft.ScrollMode.ADAPTIVE,
         ),
+        width=500,
         padding=20,
         border_radius=8,
         bgcolor=ft.Colors.GREY_100,

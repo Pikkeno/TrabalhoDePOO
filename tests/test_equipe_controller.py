@@ -6,15 +6,22 @@ from datetime import datetime, timedelta
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 
+from src.controllers.pessoa_controller import PessoaController
 from src.controllers.equipe_controller import EquipeController
 from src.models.pessoa_models import Pessoa
 from src.models.desafio_models import Desafio
 
 class TestEquipeController(unittest.TestCase):
     def setUp(self):
-        self.p1 = Pessoa('Alice', '1')
-        self.p2 = Pessoa('Bob', '2')
-        self.p3 = Pessoa('Carol', '3')
+        self.pessoa_controller = PessoaController()
+        self.pessoa_controller.salvar_pessoas = lambda: None
+        self.pessoa_controller.pessoas = []
+        self.p1 = self.pessoa_controller.criar_pessoa('Alice', '1')
+        self.p2 = self.pessoa_controller.criar_pessoa('Bob', '2')
+        self.p3 = self.pessoa_controller.criar_pessoa('Carol', '3')
+        self.controller = EquipeController(self.pessoa_controller)
+        self.controller.salvar_equipes = lambda: None
+        self.controller.equipes = []
         self.controller = EquipeController()
         self.equipe = self.controller.criar_equipe('TimeA', self.p1)
 
@@ -27,6 +34,23 @@ class TestEquipeController(unittest.TestCase):
         self.assertNotIn(self.p2, self.equipe.integrantes)
         # Remover novamente deve retornar False
         self.assertFalse(self.controller.remover_integrante(self.equipe, self.p2))
+
+    def test_adicionar_remover_por_nome(self):
+        self.assertTrue(
+            self.controller.adicionar_integrante_por_nome(self.equipe, 'Bob')
+        )
+        self.assertIn(self.p2, self.equipe.integrantes)
+        # Repetido deve retornar False
+        self.assertFalse(
+            self.controller.adicionar_integrante_por_nome(self.equipe, 'Bob')
+        )
+        self.assertTrue(
+            self.controller.remover_integrante_por_nome(self.equipe, 'Bob')
+        )
+        self.assertNotIn(self.p2, self.equipe.integrantes)
+        self.assertFalse(
+            self.controller.remover_integrante_por_nome(self.equipe, 'Bob')
+        )
 
     def test_entrar_desafio(self):
         self.controller.adicionar_integrante(self.equipe, self.p2)

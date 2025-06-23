@@ -25,8 +25,6 @@ class EquipeController:
             self.equipes.append(equipe)
 
     def salvar_equipes(self):
-        if self.pessoa_controller is None:
-            return
         dados = []
         for eq in self.equipes:
             dados.append({
@@ -46,10 +44,22 @@ class EquipeController:
     def adicionar_integrante(self, equipe, pessoa):
         """Adiciona uma pessoa a uma equipe existente."""
         if equipe.adicionar_integrante(pessoa):
+            self.salvar_equipes()
             logger.info("%s adicionado à equipe %s", pessoa.nome, equipe.nome)
             return True
         logger.info("%s já faz parte da equipe %s", pessoa.nome, equipe.nome)
         return False
+
+
+    def adicionar_integrante_por_nome(self, equipe, nome_usuario: str):
+        """Adiciona um integrante procurando pelo nome de usuário."""
+        if self.pessoa_controller is None:
+            return False
+        pessoa = self.pessoa_controller.buscar_por_nome(nome_usuario)
+        if not pessoa:
+            logger.info("Usuário %s não encontrado", nome_usuario)
+            return False
+        return self.adicionar_integrante(equipe, pessoa)
 
     def remover_integrante(self, equipe, pessoa):
         """Remove uma pessoa da equipe."""

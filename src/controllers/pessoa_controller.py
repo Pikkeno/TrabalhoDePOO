@@ -88,10 +88,11 @@ class PessoaController:
                 return pessoa
         return None
 
-    def buscar_por_nome(self, nome):
-        """Retorna uma pessoa pelo nome."""
+    def buscar_por_nome(self, nome_usuario: str):
+        """Retorna uma pessoa pelo nome de usuário (case-insensitive)."""
+        nome_usuario = nome_usuario.lower()
         for pessoa in self.pessoas:
-            if pessoa.nome == nome:
+            if pessoa.nome.lower() == nome_usuario:
                 return pessoa
         return None
     
@@ -102,8 +103,8 @@ class PessoaController:
                 return pessoa
         return None
     
-    def adicionar_amigo(self, pessoa, nome_amigo):
-        """Adiciona um amigo usando o nome"""
+    def adicionar_amigo(self, pessoa, nome_amigo: str):
+        """Adiciona um amigo usando o nome de usuário."""
         amigo = self.buscar_por_nome(nome_amigo)
         if not amigo:
             return "Amigo não encontrado."

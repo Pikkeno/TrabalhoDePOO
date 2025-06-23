@@ -20,7 +20,7 @@ def flet_main(page: ft.Page):
 
     desafio_controller = DesafioController()
     pessoa_controller = PessoaController()
-    equipe_controller = EquipeController()
+    equipe_controller = EquipeController(pessoa_controller)
 
     mostrar_login(page, pessoa_controller, equipe_controller, desafio_controller)
 

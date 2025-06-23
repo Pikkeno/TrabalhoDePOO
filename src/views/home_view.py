@@ -16,7 +16,7 @@ def mostrar_pos_login(
     """Tela inicial após o login com opções sociais."""
     page.clean()
     nome_equipe = ft.TextField(label="Nome da Equipe", width=250)
-    nome_amigo = ft.TextField(label="Nome do Amigo", width=250)
+    nome_usuario_amigo = ft.TextField(label="Nome de Usuário do Amigo", width=250)
     output = ft.Text()
 
     def criar_equipe(e):
@@ -25,7 +25,7 @@ def mostrar_pos_login(
         page.update()
 
     def adicionar_amigo(e):
-        output.value = pessoa_controller.adicionar_amigo(pessoa, nome_amigo.value)
+        output.value = pessoa_controller.adicionar_amigo(pessoa, nome_usuario_amigo.value)
         page.update()
 
     conteudo = ft.Container(
@@ -45,7 +45,7 @@ def mostrar_pos_login(
                         color=ft.Colors.WHITE,
                     ),
                 ),
-                nome_amigo,
+                nome_usuario_amigo,
                 ft.ElevatedButton(
                     "Adicionar Amigo",
                     on_click=adicionar_amigo,
