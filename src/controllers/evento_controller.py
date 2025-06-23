@@ -26,8 +26,7 @@ class EventoController:
     def criar_evento(self, criador: Competidor, convidado: Competidor) -> EventoCompetitivo:
         evento = EventoCompetitivo(criador, convidado)
         self.eventos.append(evento)
-        self.pessoa_controller
-        self.carregar_eventos()
+        self.salvar_eventos()
         return evento
 
     def aceitar_evento(self, evento: EventoCompetitivo, usuario: Competidor):
@@ -35,6 +34,14 @@ class EventoController:
             raise ValueError("Apenas o convidado pode aceitar o evento")
         evento.aceitar_convite()
         self.salvar_eventos()
+
+    def recusar_evento(self, evento: EventoCompetitivo, usuario: Competidor):
+        """Remove o evento caso o convidado recuse o convite."""
+        if evento.convidado != usuario:
+            raise ValueError("Apenas o convidado pode recusar o evento")
+        if evento in self.eventos:
+            self.eventos.remove(evento)
+            self.salvar_eventos()
 
     def adicionar_desafio_ao_evento(
         self,

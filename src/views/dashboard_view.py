@@ -2,11 +2,30 @@ import flet as ft
 from src.utils.logger import logger
 
 
-def listar_desafios_por_status(desafio_controller, status: str):
-    """Gera uma lista de ListTile para os desafios com o status informado."""
+def listar_desafios_por_status(
+    desafio_controller,
+    status: str,
+    usuario=None,
+    evento_controller=None,
+):
+    """Gera uma lista de ListTile para os desafios filtrados."""
     desafios = [d for d in desafio_controller.desafios if d.status == status]
+
+    # Se informado um usuario e um controlador de eventos, filtra os desafios
+    if usuario is not None and evento_controller is not None:
+        desafios = [
+            d
+            for d in desafios
+            if any(
+                d in e.desafios
+                and (e.criador == usuario or e.convidado == usuario)
+                for e in evento_controller.eventos
+            )
+        ]
+
     if not desafios:
         return [ft.ListTile(title=ft.Text("Nenhum desafio."))]
+
     return [
         ft.ListTile(title=ft.Text(f"Desafio {d.id}"), subtitle=ft.Text(d.descricao))
         for d in desafios
