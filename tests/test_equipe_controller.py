@@ -1,6 +1,8 @@
 import unittest
 import sys
 import os
+import tempfile
+from pathlib import Path
 from datetime import datetime, timedelta
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -8,11 +10,15 @@ sys.path.append(ROOT_DIR)
 
 from src.controllers.pessoa_controller import PessoaController
 from src.controllers.equipe_controller import EquipeController
+from src.utils import equipe_db
 from src.models.pessoa_models import Pessoa
 from src.models.desafio_models import Desafio
 
 class TestEquipeController(unittest.TestCase):
     def setUp(self):
+        self.tmpdir = tempfile.TemporaryDirectory()
+        self.original_path = equipe_db.DB_PATH
+        equipe_db.DB_PATH = Path(self.tmpdir.name) / "equipes.json"
         self.pessoa_controller = PessoaController()
         self.pessoa_controller.salvar_pessoas = lambda: None
         self.pessoa_controller.pessoas = []
@@ -25,9 +31,18 @@ class TestEquipeController(unittest.TestCase):
         self.controller = EquipeController()
         self.equipe = self.controller.criar_equipe('TimeA', self.p1)
 
+    def tearDown(self):
+        equipe_db.DB_PATH = self.original_path
+        self.tmpdir.cleanup()
+
     def test_criar_equipe_nome_vazio(self):
         with self.assertRaises(ValueError):
             self.controller.criar_equipe('', self.p1)
+    
+    def test_criar_equipe_nome_duplicado_mesmo_usuario(self):
+        self.controller.criar_equipe('Repetida', self.p1)
+        with self.assertRaises(ValueError):
+            self.controller.criar_equipe('Repetida', self.p1)
 
     def test_adicionar_remover_integrante(self):
         self.assertTrue(self.controller.adicionar_integrante(self.equipe, self.p2))

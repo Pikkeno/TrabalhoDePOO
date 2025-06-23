@@ -133,6 +133,7 @@ def mostrar_pos_login(
                     on_click=lambda e: mostrar_dashboard(
                         page,
                         desafio_controller,
+                        evento_controller,
                         lambda e: mostrar_pos_login(
                             page,
                             pessoa,

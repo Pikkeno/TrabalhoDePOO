@@ -13,7 +13,42 @@ def listar_desafios_por_status(desafio_controller, status: str):
     ]
 
 
-def mostrar_dashboard(page, desafio_controller, voltar_callback):    
+from src.views.evento_view import mostrar_cadastro_desafio_evento
+
+
+def listar_eventos(evento_controller, desafio_controller, page, voltar_callback):
+    """Retorna controles para listar eventos."""
+    if not evento_controller.eventos:
+        return [ft.ListTile(title=ft.Text("Nenhum evento."))]
+
+    controles = []
+    for idx, evento in enumerate(evento_controller.eventos, start=1):
+        titulo = f"Evento {idx}: {evento.criador.obter_nome()} x {evento.convidado.obter_nome()}"
+        subtitulo = ft.Text("Aceito" if evento.aceito else "Pendente")
+        controles.append(
+            ft.ListTile(
+                title=ft.Text(titulo),
+                subtitle=subtitulo,
+                trailing=ft.TextButton(
+                    "Criar Desafio",
+                    on_click=lambda e, ev=evento: mostrar_cadastro_desafio_evento(
+                        page,
+                        ev,
+                        evento_controller,
+                        lambda e: mostrar_dashboard(
+                            page,
+                            desafio_controller,
+                            evento_controller,
+                            voltar_callback,
+                        ),
+                    ),
+                ),
+            )
+        )
+    return controles
+
+
+def mostrar_dashboard(page, desafio_controller, evento_controller, voltar_callback):    
     page.clean()
     abertos = ft.ListView(
         controls=listar_desafios_por_status(desafio_controller, "Ativo"),
@@ -33,12 +68,19 @@ def mostrar_dashboard(page, desafio_controller, voltar_callback):
         spacing=10,
     )
 
+    eventos_lista = ft.ListView(
+        controls=listar_eventos(evento_controller, desafio_controller, page, voltar_callback),
+        padding=10,
+        spacing=10,
+    )
+
     tabs = ft.Tabs(
         expand=1,
         tabs=[
             ft.Tab(text="Abertos", content=abertos),
             ft.Tab(text="Encerrados", content=encerrados),
             ft.Tab(text="Histórico", content=historico),
+            ft.Tab(text="Eventos", content=eventos_lista),
         ],
     )
 
