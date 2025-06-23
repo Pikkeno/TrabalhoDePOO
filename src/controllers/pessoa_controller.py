@@ -48,6 +48,12 @@ class PessoaController:
         json_db.salvar_dados(dados)
 
     def criar_pessoa(self, nome, idm=None, email=None, senha=None):
+        if not nome or not nome.strip():
+            raise ValueError("Nome não pode ser vazio")
+        if email is not None and email.strip() == "":
+            raise ValueError("Email não pode ser vazio")
+        if senha is not None and senha.strip() == "":
+            raise ValueError("Senha não pode ser vazia")
         self.validar_email(email)
         if idm is None:
             # Gera um IDM único e aleatório
@@ -105,6 +111,8 @@ class PessoaController:
     
     def adicionar_amigo(self, pessoa, nome_amigo: str):
         """Adiciona um amigo usando o nome de usuário."""
+        if not nome_amigo or nome_amigo.strip() == "":
+            raise ValueError("Nome do amigo não pode ser vazio")
         amigo = self.buscar_por_nome(nome_amigo)
         if not amigo:
             return "Amigo não encontrado."

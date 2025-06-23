@@ -82,5 +82,9 @@ class TestAdicionarAmigo(BasePessoaControllerTest):
         mensagem = self.controller.adicionar_amigo(self.usuario, "Inexistente")
         self.assertIn("não encontrado", mensagem)
 
+    def test_adicionar_amigo_nome_vazio(self):
+        with self.assertRaises(ValueError):
+            self.controller.adicionar_amigo(self.usuario, "")
+
 if __name__ == "__main__":
     unittest.main()

@@ -46,6 +46,8 @@ class EquipeController:
         equipe_db.salvar_dados(dados)
 
     def criar_equipe(self, nome, criador):
+        if not nome or nome.strip() == "":
+            raise ValueError("Nome da equipe não pode ser vazio")
         equipe = Equipe(nome, criador)
         self.equipes.append(equipe)
         self.salvar_equipes()

@@ -25,6 +25,10 @@ class TestEquipeController(unittest.TestCase):
         self.controller = EquipeController()
         self.equipe = self.controller.criar_equipe('TimeA', self.p1)
 
+    def test_criar_equipe_nome_vazio(self):
+        with self.assertRaises(ValueError):
+            self.controller.criar_equipe('', self.p1)
+
     def test_adicionar_remover_integrante(self):
         self.assertTrue(self.controller.adicionar_integrante(self.equipe, self.p2))
         self.assertIn(self.p2, self.equipe.integrantes)

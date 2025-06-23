@@ -26,6 +26,17 @@ class DesafioController:
         """
         Cria um novo desafio e adiciona à lista de desafios.
         """
+        if not descricao or not str(descricao).strip():
+            raise ValueError("Descrição não pode ser vazia")
+        if not data_inicio or not str(data_inicio).strip():
+            raise ValueError("Data de início não pode ser vazia")
+        if not data_fim or not str(data_fim).strip():
+            raise ValueError("Data de fim não pode ser vazia")
+        if valor_aposta is None or str(valor_aposta).strip() == "":
+            raise ValueError("Valor da aposta não pode ser vazio")
+        if limite_participantes is None or str(limite_participantes).strip() == "":
+            raise ValueError("Limite de participantes não pode ser vazio")
+        
         if competicao == "individual":
             if not adversarios or len(adversarios) == 0:
                 raise ValueError(
