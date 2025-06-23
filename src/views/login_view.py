@@ -32,8 +32,8 @@ def realizar_login(
             pessoa,
             pessoa_controller,
             equipe_controller,
-            desafio_controller,
             evento_controller,
+            desafio_controller,
             lambda e: mostrar_login(
                 page,
                 pessoa_controller,
