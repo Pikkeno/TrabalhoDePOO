@@ -3,7 +3,11 @@ from src.utils.logger import logger
 
 
 def listar_desafios_por_status(
-    desafio_controller, status: str, usuario=None, evento_controller=None
+    desafio_controller,
+    status: str,
+    usuario=None,
+    evento_controller=None,
+    concluir_callback=None,
 ):
     """Gera uma lista de ``ft.ListTile`` para os desafios com o status informado.
 
@@ -34,10 +38,23 @@ def listar_desafios_por_status(
                 desafios.append(desafio)
     if not desafios:
         return [ft.ListTile(title=ft.Text("Nenhum desafio."))]
-    return [
-        ft.ListTile(title=ft.Text(f"Desafio {d.id}"), subtitle=ft.Text(d.descricao))
-        for d in desafios
-    ]
+
+    tiles = []
+    for d in desafios:
+        trailing = None
+        if status == "Ativo" and concluir_callback:
+            trailing = ft.TextButton(
+                "Concluir",
+                on_click=lambda e, ds=d: concluir_callback(ds),
+            )
+        tiles.append(
+            ft.ListTile(
+                title=ft.Text(f"Desafio {d.id}"),
+                subtitle=ft.Text(d.descricao),
+                trailing=trailing,
+            )
+        )
+    return tiles
 
 
 from src.views.evento_view import mostrar_cadastro_desafio_evento
@@ -108,14 +125,20 @@ def listar_eventos(
     return controles
 
 
-def mostrar_dashboard(page, usuario, desafio_controller, evento_controller, voltar_callback):    
+def mostrar_dashboard(page, usuario, desafio_controller, evento_controller, voltar_callback):
     page.clean()
+
+    def concluir_desafio(ds):
+        desafio_controller.concluir_desafio(ds)
+        mostrar_dashboard(page, usuario, desafio_controller, evento_controller, voltar_callback)
+
     abertos = ft.ListView(
         controls=listar_desafios_por_status(
             desafio_controller,
             "Ativo",
             usuario,
             evento_controller,
+            concluir_desafio,
         ),
         padding=10,
         spacing=10,
