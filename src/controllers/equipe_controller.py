@@ -47,12 +47,18 @@ class EquipeController:
 
     def criar_equipe(self, nome, criador):
         if not nome or nome.strip() == "":
+            logger.error("Nome da equipe não pode ser vazio")
             raise ValueError("Nome da equipe não pode ser vazio")
         for equipe in self.equipes:
             if (
                 equipe.criador == criador
                 and equipe.nome.lower() == nome.lower()
             ):
+                logger.error(
+                    "Usuário %s já possui uma equipe com o nome %s",
+                    criador.idm,
+                    nome,
+                )
                 raise ValueError(
                     "Usuário já possui uma equipe com esse nome"
                 )

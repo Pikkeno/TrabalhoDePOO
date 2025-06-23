@@ -112,12 +112,16 @@ class PessoaController:
     def adicionar_amigo(self, pessoa, nome_amigo: str):
         """Adiciona um amigo usando o nome de usuário."""
         if not nome_amigo or nome_amigo.strip() == "":
+            logger.error("Nome do amigo nao pode ser vazio")
             raise ValueError("Nome do amigo não pode ser vazio")
         amigo = self.buscar_por_nome(nome_amigo)
         if not amigo:
+            logger.info("Amigo %s nao encontrado", nome_amigo)
             return "Amigo não encontrado."
         if pessoa.adicionar_amigo(amigo):
+            logger.info("%s adicionou %s como amigo", pessoa.nome, amigo.nome)
             return f"{amigo.nome} adicionado como amigo."
+        logger.info("%s ja e amigo de %s", amigo.nome, pessoa.nome)
         return f"{amigo.nome} já é amigo."
     
 

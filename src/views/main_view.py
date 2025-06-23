@@ -18,9 +18,10 @@ def flet_main(page: ft.Page):
     page.title = "Sistema de Desafios"
     logger.info("Iniciando o GymBet com Flet...")
 
-    desafio_controller = DesafioController()
+    
     pessoa_controller = PessoaController()
     equipe_controller = EquipeController(pessoa_controller)
+    desafio_controller = DesafioController(equipe_controller)
     evento_controller = EventoController(desafio_controller)
 
     mostrar_login(page, pessoa_controller, equipe_controller, desafio_controller, evento_controller)

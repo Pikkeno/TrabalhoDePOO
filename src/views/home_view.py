@@ -36,12 +36,24 @@ def mostrar_pos_login(
     output = ft.Text()
 
     def criar_equipe(e):
-        equipe_controller.criar_equipe(nome_equipe.value, pessoa)
-        output.value = f"Equipe {nome_equipe.value} criada."
+        try:
+            equipe_controller.criar_equipe(nome_equipe.value, pessoa)
+        except Exception as exc:  # noqa: BLE001
+            output.value = f"Erro ao criar equipe: {exc}"
+            logger.error("Falha ao criar equipe: %s", exc)
+        else:
+            output.value = f"Equipe {nome_equipe.value} criada."
+            logger.info("Equipe criada: %s", nome_equipe.value)
         page.update()
 
     def adicionar_amigo(e):
-        output.value = pessoa_controller.adicionar_amigo(pessoa, nome_usuario_amigo.value)
+        try:
+            output.value = pessoa_controller.adicionar_amigo(
+                pessoa, nome_usuario_amigo.value
+            )
+        except Exception as exc:  # noqa: BLE001
+            output.value = f"Erro ao adicionar amigo: {exc}"
+            logger.error("Falha ao adicionar amigo: %s", exc)
         page.update()
 
     conteudo = ft.Container(
