@@ -2,12 +2,14 @@
 from src.interface.desafio_interface import DesafioInterface
 from src.models.desafio_models import Desafio
 from src.utils.logger import logger
+from src.utils import desafio_db
 class DesafioController:
             
 
     def __init__(self, equipe_controller=None):
         self.desafios = []  # Lista de desafios ativos no sistema
         self.equipe_controller = equipe_controller
+        self.carregar_desafios()
         logger.info("DesafioController iniciado")
 
     def criar_desafio(
@@ -61,9 +63,11 @@ class DesafioController:
             if equipe_adversaria is None:
                 raise ValueError("Selecione uma equipe adversária para o desafio.")
             
-        desafio = Desafio(id, descricao, data_inicio, data_fim, valor_aposta,
-                          limite_participantes)
+        desafio = Desafio(
+            id, descricao, data_inicio, data_fim, valor_aposta, limite_participantes
+        )
         self.desafios.append(desafio)
+        self.salvar_desafios()
         logger.info(f"Desafio {id} criado: {descricao}")
         return desafio
 
@@ -145,3 +149,35 @@ class DesafioController:
         Exibe a lista de desafios ativos.
         """
         return [f"Desafio {desafio.id}: {desafio.descricao} - Status: {desafio.status}" for desafio in self.desafios]
+    
+    def carregar_desafios(self):
+        for dado in desafio_db.carregar_dados():
+            try:
+                desafio = Desafio(
+                    dado.get("id"),
+                    dado.get("descricao"),
+                    dado.get("data_inicio"),
+                    dado.get("data_fim"),
+                    dado.get("valor_aposta"),
+                    dado.get("limite_participantes", 2),
+                )
+                desafio.status = dado.get("status", "Ativo")
+                self.desafios.append(desafio)
+            except Exception:
+                continue
+
+    def salvar_desafios(self):
+        dados = []
+        for d in self.desafios:
+            dados.append(
+                {
+                    "id": d.id,
+                    "descricao": d.descricao,
+                    "data_inicio": d.data_inicio,
+                    "data_fim": d.data_fim,
+                    "valor_aposta": d.valor_aposta,
+                    "limite_participantes": d.limite_participantes,
+                    "status": d.status,
+                }
+            )
+        desafio_db.salvar_dados(dados)
