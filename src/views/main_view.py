@@ -5,7 +5,7 @@ import sys
 if __package__ is None:
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
     
-
+from src.controllers.evento_controller import EventoController
 from src.controllers.desafio_controller import DesafioController
 from src.controllers.pessoa_controller import PessoaController
 from src.controllers.equipe_controller import EquipeController
@@ -21,8 +21,9 @@ def flet_main(page: ft.Page):
     desafio_controller = DesafioController()
     pessoa_controller = PessoaController()
     equipe_controller = EquipeController(pessoa_controller)
+    evento_controller = EventoController(desafio_controller)
 
-    mostrar_login(page, pessoa_controller, equipe_controller, desafio_controller)
-
+    mostrar_login(page, pessoa_controller, equipe_controller, desafio_controller, evento_controller)
+    
 if __name__ == "__main__":
         ft.app(target=flet_main)

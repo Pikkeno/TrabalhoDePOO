@@ -18,6 +18,7 @@ def realizar_login(
     login_output,
     equipe_controller,
     desafio_controller,
+    evento_controller,
 ):
     pessoa = pessoa_controller.autenticar(
         usuario_login.value,
@@ -32,11 +33,13 @@ def realizar_login(
             pessoa_controller,
             equipe_controller,
             desafio_controller,
+            evento_controller,
             lambda e: mostrar_login(
                 page,
                 pessoa_controller,
                 equipe_controller,
                 desafio_controller,
+                evento_controller,
             ),
         )
     else:
@@ -52,6 +55,7 @@ def mostrar_login(
     pessoa_controller,
     equipe_controller,
     desafio_controller,
+    evento_controller,
     voltar_callback=None,
 ):
     usuario_login, senha_login = cria_campo_login()
@@ -72,6 +76,7 @@ def mostrar_login(
                         login_output,
                         equipe_controller,
                         desafio_controller,
+                        evento_controller,
                     ),
                     style=ft.ButtonStyle(
                         bgcolor=ft.Colors.RED_400,
@@ -88,6 +93,7 @@ def mostrar_login(
                             pessoa_controller,
                             equipe_controller,
                             desafio_controller,
+                            evento_controller,
                         ),
                     ),
                     

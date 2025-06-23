@@ -2,6 +2,7 @@ import flet as ft
 from src.views.team_view import mostrar_gerenciamento_equipes
 from src.views.desafio_view import mostrar_cadastro_desafio
 from src.views.dashboard_view import mostrar_dashboard
+from src.views.evento_view import mostrar_cadastro_evento
 from src.utils.logger import logger
 
 
@@ -10,6 +11,7 @@ def mostrar_pos_login(
     pessoa,
     pessoa_controller,
     equipe_controller,
+    evento_controller,
     desafio_controller,
     voltar_callback,
 ):
@@ -74,6 +76,7 @@ def mostrar_pos_login(
                             pessoa_controller,
                             equipe_controller,
                             desafio_controller,
+                            evento_controller,
                             voltar_callback,
 
                         ),
@@ -96,6 +99,7 @@ def mostrar_pos_login(
                             pessoa_controller,
                             equipe_controller,
                             desafio_controller,
+                            evento_controller,
                             voltar_callback,
                         ),
                     ),
@@ -103,6 +107,26 @@ def mostrar_pos_login(
                         bgcolor=ft.Colors.RED_400,
                         color=ft.Colors.WHITE,
                     ),
+                ),
+                ft.ElevatedButton(
+                    "Criar Evento Competitivo",
+                    on_click=lambda e: mostrar_cadastro_evento(
+                        page,
+                        pessoa,
+                        pessoa_controller,
+                        equipe_controller,
+                        evento_controller,
+                        lambda e: mostrar_pos_login(
+                            page,
+                            pessoa,
+                            pessoa_controller,
+                            equipe_controller,
+                            desafio_controller,
+                            evento_controller,
+                            voltar_callback,
+                        ),
+                    ),
+                    style=ft.ButtonStyle(bgcolor=ft.Colors.RED_400, color=ft.Colors.WHITE),
                 ),
                 ft.ElevatedButton(
                     "Ir para Dashboard",
@@ -115,6 +139,7 @@ def mostrar_pos_login(
                             pessoa_controller,
                             equipe_controller,
                             desafio_controller,
+                            evento_controller,
                             voltar_callback,
                         ),
                     ),
